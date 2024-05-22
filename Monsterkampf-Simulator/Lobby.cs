@@ -1,4 +1,5 @@
-﻿namespace Monsterkampf_Simulator
+﻿using System.Drawing;
+namespace Monsterkampf_Simulator
 {
     internal class Lobby
     {

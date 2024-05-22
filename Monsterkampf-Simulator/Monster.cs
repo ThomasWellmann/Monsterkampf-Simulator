@@ -23,5 +23,18 @@ namespace Monsterkampf_Simulator
             DP = _dp; 
             S = _s;
         }
+
+        public void DrawOrc()
+        {
+
+        }
+        public void DrawTroll()
+        {
+            StringBuilder sb = new StringBuilder();
+        }
+        public void DrawGoblin()
+        {
+            StringBuilder sb = new StringBuilder();
+        }
     }
 }
