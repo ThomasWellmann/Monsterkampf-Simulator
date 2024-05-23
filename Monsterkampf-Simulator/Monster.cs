@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Monsterkampf_Simulator
-{
+{//█▀▄
     class Monster
     {
         public int type { get; set; }
@@ -24,17 +24,26 @@ namespace Monsterkampf_Simulator
             S = _s;
         }
 
-        public void DrawOrc()
+        public static void DrawOrc(int _x, int _y)
         {
-
+            Lobby.PrintText("  ██  ", ConsoleColor.Gray, _x, _y);
+            Lobby.PrintText("█▀██▀█", ConsoleColor.Gray, _x, _y + 1);
+            Lobby.PrintText("█▄██▄█", ConsoleColor.Gray, _x, _y + 2);
+            Lobby.PrintText(" █  █ ", ConsoleColor.Gray, _x, _y + 3);
         }
-        public void DrawTroll()
+        public static void DrawTroll(int _x, int _y)
         {
-            StringBuilder sb = new StringBuilder();
+            Lobby.PrintText("  ██  ", ConsoleColor.DarkYellow, _x, _y);
+            Lobby.PrintText("█▀██▀█", ConsoleColor.DarkYellow, _x, _y + 1);
+            Lobby.PrintText("█▄██▄█", ConsoleColor.DarkYellow, _x, _y + 2);
+            Lobby.PrintText(" █  █ ", ConsoleColor.DarkYellow, _x, _y + 3);
         }
-        public void DrawGoblin()
+        public static void DrawGoblin(int _x, int _y)
         {
-            StringBuilder sb = new StringBuilder();
+            Lobby.PrintText("  ██  ", ConsoleColor.DarkGreen, _x, _y);
+            Lobby.PrintText("█▀██▀█", ConsoleColor.DarkGreen, _x, _y + 1);
+            Lobby.PrintText("█▄██▄█", ConsoleColor.DarkGreen, _x, _y + 2);
+            Lobby.PrintText(" █  █ ", ConsoleColor.DarkGreen, _x, _y + 3);
         }
     }
 }
