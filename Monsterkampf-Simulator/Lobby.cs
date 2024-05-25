@@ -77,5 +77,17 @@ namespace Monsterkampf_Simulator
         {
             return Console.LargestWindowHeight / 2 + _offSet;
         }
+
+        public static void DrawMiddleLine()
+        {
+            for (int y = 0; y < Console.LargestWindowHeight; y++)
+            {
+                PrintText("█", ConsoleColor.DarkGray, Console.LargestWindowWidth / 2, y);
+            }
+            for (int x = 0; x < Console.LargestWindowWidth; x++)
+            {
+                PrintText("█", ConsoleColor.DarkGray, x, Console.LargestWindowHeight / 2);
+            }
+        }
     }
 }

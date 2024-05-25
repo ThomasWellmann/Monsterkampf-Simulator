@@ -24,7 +24,7 @@ namespace Monsterkampf_Simulator
             S = _s;
         }
 
-        public static void DrawOrc(int _x, int _y)
+        public static void DrawMonster(int _x, int _y) ///////////
         {
             Lobby.PrintText("  ██  ", ConsoleColor.Gray, _x, _y);
             Lobby.PrintText("█▀██▀█", ConsoleColor.Gray, _x, _y + 1);
