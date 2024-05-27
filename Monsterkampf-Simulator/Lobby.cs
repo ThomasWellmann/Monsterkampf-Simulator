@@ -18,31 +18,33 @@ namespace Monsterkampf_Simulator
         "                /        \\|  ||  Y Y  \\|  |  /|  |__ / __ \\_|  | (  <_> )|  | \\/                ",
         "               /_______  /|__||__|_|  /|____/ |____/(____  /|__|  \\____/ |__|                   ",
         "                       \\/           \\/                   \\/                                     "};
-        private static string getStarted = "Press any key to get started!";
+        private static string[] getStarted = { "Press any key to get started!" };
+        public static int[] windowSize = {Console.LargestWindowWidth, Console.LargestWindowHeight};
 
         static void Main(string[] args)
         {
             PrintLobby();
+            
         }
         //█▀▄
         private static void PrintLobby()
         {
-            SetFullSizedWindow();
+            ResizeWindow();
             SetColorsToDefault();
             Console.Clear();
 
             PrintGameTitel();
-            PrintText(getStarted, defaultFColor, CenterTextX(getStarted), CenterTextY(7));
+            PrintText(getStarted[0], defaultFColor, CenterTextX(getStarted[0]), CenterTextY(7));
 
             Console.ReadKey(true);
 
             MonsterSelection.PrintMonsterSelection();
         }
 
-        private static void SetFullSizedWindow()
+        public static void ResizeWindow()
         {
             Console.SetWindowPosition(0, 0);
-            Console.SetWindowSize(Console.LargestWindowWidth, Console.LargestWindowHeight);
+            Console.SetWindowSize(windowSize[0], windowSize[1]);
         }
 
         public static void SetColorsToDefault()
@@ -71,22 +73,22 @@ namespace Monsterkampf_Simulator
 
         public static int CenterTextX(string _text)
         {
-            return Console.LargestWindowWidth / 2 - _text.Length / 2;
+            return windowSize[0] / 2 - _text.Length / 2;
         }
         public static int CenterTextY(int _offSet)
         {
-            return Console.LargestWindowHeight / 2 + _offSet;
+            return windowSize[1] / 2 + _offSet;
         }
 
         public static void DrawMiddleLine()
         {
-            for (int y = 0; y < Console.LargestWindowHeight; y++)
+            for (int y = 0; y < windowSize[1]; y++)
             {
-                PrintText("█", ConsoleColor.DarkGray, Console.LargestWindowWidth / 2, y);
+                PrintText("█", ConsoleColor.DarkGray, windowSize[0] / 2, y);
             }
-            for (int x = 0; x < Console.LargestWindowWidth; x++)
+            for (int x = 0; x < windowSize[0]; x++)
             {
-                PrintText("█", ConsoleColor.DarkGray, x, Console.LargestWindowHeight / 2);
+                PrintText("█", ConsoleColor.DarkGray, x, windowSize[1] / 2);
             }
         }
     }
