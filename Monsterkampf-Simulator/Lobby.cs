@@ -38,7 +38,7 @@ namespace Monsterkampf_Simulator
 
             Console.ReadKey(true);
 
-            MonsterSelection.PrintMonsterSelection();
+            MonsterSettings.PrintMonsterSelection();
         }
 
         public static void ResizeWindow()
@@ -89,6 +89,13 @@ namespace Monsterkampf_Simulator
             for (int x = 0; x < windowSize[0]; x++)
             {
                 PrintText("█", ConsoleColor.DarkGray, x, windowSize[1] / 2);
+            }
+        }
+        public static void Loop()
+        {
+            while (true)
+            {
+                Console.ReadKey();
             }
         }
     }
