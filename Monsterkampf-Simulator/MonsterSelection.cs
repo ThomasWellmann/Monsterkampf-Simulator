@@ -14,14 +14,14 @@ namespace Monsterkampf_Simulator
         public static int currentPlayer = 1;
         public static int[] monsterPlayer = { 0, 0, 0 };
         public static ConsoleColor[] colorPlayer = { Lobby.defaultBColor, ConsoleColor.Blue, ConsoleColor.Red };
-        private static readonly string[] selectionSettings = {$"Player {currentPlayer}:",//0
+        private static string[] selectionSettings = {"",//0
         $"Choose your Monster by pressing the respective monster class number in your keyboard.",//1
         "You can not choose the same moster for both players",//2
-        $"(1): Orc       (2): Troll     (3): Goblin    ",//3
-        $"HP: {orc[1]}        HP: {troll[1]}        HP: {goblin[1]}    ",//4
-        $"AP: {orc[2]}         AP: {troll[2]}         AP: {goblin[2]}     ",//5
-        $"DP: {orc[3]}          DP: {troll[3]}         DP: {goblin[3]}      ",//6
-        $"SP: {orc[4]}          SP: {troll[4]}          SP: {goblin[4]}     " };//7
+        $"(1): Orc       (2): Troll     (3): Goblin",//3
+        $"HP: {orc[1]}        HP: {troll[1]}        HP: {goblin[1]}",//4
+        $"AP: {orc[2]}         AP: {troll[2]}         AP: {goblin[2]}",//5
+        $"DP: {orc[3]}          DP: {troll[3]}         DP: {goblin[3]} ",//6
+        $"AS: {orc[4]}          AS: {troll[4]}          AS: {goblin[4]}" };//7
         private static string[] chosenMonsterDisplay = {"Player 1:", "Player 2:", //0/1
         " _    _______",//2
         "| |  / / ___/",//3
@@ -53,32 +53,44 @@ namespace Monsterkampf_Simulator
             PlayerMonsterSelection();
 
             //ChangeMonsterStats();
+            Loop();
         }
 
         private static void PlayerMonsterSelection()
         {
             PrintSelectionText();
 
-            GetPlayerInput();
+            SelectMonster();
             currentPlayer++;
 
             PrintSelectionText();
 
-            GetPlayerInput();
+            SelectMonster();
+
+            PrintSelectionText();
+        }
+
+        private static void Loop()
+        {
+            while (true)
+            {
+                Console.ReadKey();
+            }
         }
 
         private static void PrintSelectionText()
         {
-            offSet = -3;
+            offSet = -1;
 
-            for (int i = 0; i < 4; i++)
+            Lobby.PrintText($"Player {currentPlayer}:", Lobby.defaultFColor, Lobby.CenterTextX($"Player {currentPlayer}:"), Lobby.CenterTextY(offSet - 2));
+            for (int i = 1; i < 4; i++)
             {
                 Lobby.PrintText(selectionSettings[i], Lobby.defaultFColor, Lobby.CenterTextX(selectionSettings[i]), Lobby.CenterTextY(offSet));
                 offSet += 2;
             }
-            Monster.DrawMonster(orc[0], Lobby.CenterTextX(selectionSettings[2]) + 6, Lobby.CenterTextY(offSet));
-            Monster.DrawMonster(troll[0], Lobby.CenterTextX(selectionSettings[2]) + 21, Lobby.CenterTextY(offSet));
-            Monster.DrawMonster(goblin[0], Lobby.CenterTextX(selectionSettings[2]) + 36, Lobby.CenterTextY(offSet));
+            for (int i = 0; i < 3; i++)
+                Monster.DrawMonster(i + 1, Lobby.CenterTextX(selectionSettings[3]) + 3 + i * 15, Lobby.CenterTextY(offSet));
+
 
             offSet = 10;
             for (int i = 4; i < 8; i++)
@@ -94,10 +106,10 @@ namespace Monsterkampf_Simulator
             {
                 offSet++;
                 Lobby.PrintText(chosenMonsterDisplay[i], Lobby.defaultFColor, Lobby.CenterTextX(chosenMonsterDisplay[i]), Lobby.CenterTextY(offSet));
-            }    
+            }
         }
 
-        private static void GetPlayerInput()
+        private static void SelectMonster()
         {
             while (true)
             {
@@ -152,35 +164,32 @@ namespace Monsterkampf_Simulator
         {
             Lobby.PrintText(chosenMonsterDisplay[_player - 1], colorPlayer[_player], _x, _y);
             _y++;
-            while (true)
+            if (monsterPlayer[_player] == 0)
             {
-                if (monsterPlayer[_player] == 0)
+                for (int i = 0; i < 6; i++)
                 {
-                    if (_player == 1)
-                        _x = x1;
-                    else if (_player == 2)
-                        _x = x2;
-                    for (int i = 7; i < 13; i++)
-                    {
-                        Lobby.PrintText(chosenMonsterDisplay[i], colorPlayer[_player], _x + 2, _y);
-                        _y++;
-                    }
-                    break;
+                    Lobby.PrintText(chosenMonsterDisplay[i + 7], colorPlayer[_player], _x + 2, _y + i);
                 }
-                else if (monsterPlayer[_player] == orc[0])
+            }
+            else
+            {
+                for (int i = 0; i < 6; i++)
+                {
+                    Lobby.PrintText(chosenMonsterDisplay[i + 7], Lobby.defaultBColor, _x + 2, _y + i);
+                }
+                _x++;
+                _y++;
+                if (monsterPlayer[_player] == orc[0])
                 {
                     Monster.DrawMonster(orc[0], _x, _y);
-                    break;
                 }
                 else if (monsterPlayer[_player] == troll[0])
                 {
                     Monster.DrawMonster(troll[0], _x, _y);
-                    break;
                 }
                 else if (monsterPlayer[_player] == goblin[1])
                 {
                     Monster.DrawMonster(goblin[1], _x, _y);
-                    break;
                 }
             }
         }
@@ -189,17 +198,17 @@ namespace Monsterkampf_Simulator
         {
             if (_monsterType == 1)
             {
-                string[] orcStats = { $"HP: {orc[1]}", $"AP: {orc[2]}", $"DP: {orc[3]}", $"SP: {orc[4]}" };
+                string[] orcStats = { $"HP: {orc[1]}", $"AP: {orc[2]}", $"DP: {orc[3]}", $"AS: {orc[4]}" };
                 return orcStats;
             }
             else if (_monsterType == 2)
             {
-                string[] trollStats = { $"HP: {troll[1]}", $"AP: {troll[2]}", $"DP: {troll[3]}", $"SP: {troll[4]}" };
+                string[] trollStats = { $"HP: {troll[1]}", $"AP: {troll[2]}", $"DP: {troll[3]}", $"AS: {troll[4]}" };
                 return trollStats;
             }
             else if (_monsterType == 3)
             {
-                string[] goblingStats = { $"HP: {goblin[1]}", $"AP: {goblin[2]}", $"DP: {goblin[3]}", $"SP: {goblin[4]}" };
+                string[] goblingStats = { $"HP: {goblin[1]}", $"AP: {goblin[2]}", $"DP: {goblin[3]}", $"AS: {goblin[4]}" };
                 return goblingStats;
             }
             else

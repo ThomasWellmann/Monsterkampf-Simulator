@@ -13,7 +13,7 @@ namespace Monsterkampf_Simulator
         public int HP { get; set; }
         public int AP { get; set; }
         public int DP { get; set; }
-        public int S { get; set; }
+        public int AS { get; set; }
 
         private static string[] monsterDrawn = { 
             "  ██  ", 
@@ -21,13 +21,13 @@ namespace Monsterkampf_Simulator
             "█▄██▄█", 
             " █  █ " };
 
-        public Monster(int _type, int _hp, int _ap, int _dp, int _s)
+        public Monster(int _type, int _hp, int _ap, int _dp, int _as)
         {
             type = _type; 
             HP = _hp; 
             AP = _ap; 
             DP = _dp; 
-            S = _s;
+            AS = _as;
         }
 
         public static void DrawMonster(int _monster, int _x, int _y)
