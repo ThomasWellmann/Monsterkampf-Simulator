@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Monsterkampf_Simulator
 {//█▀▄
-    class Monster
+    public class Monster
     {
         public int type { get; set; }
         public int HP { get; set; }
@@ -49,12 +49,12 @@ namespace Monsterkampf_Simulator
             }
         }
 
-        public static int[] Attack(Monster _attacker, Monster _defender)
+        public static void Attack(Monster _attacker, Monster _defender)
         {
             int dmgDelt = _attacker.AP - _defender.DP;
             _defender.HP -= dmgDelt;
             int[] attackLog = {dmgDelt, _defender.HP};
-            return attackLog;
+            //return attackLog;
         }
     }
 }

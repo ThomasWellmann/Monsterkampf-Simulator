@@ -35,17 +35,21 @@ namespace Monsterkampf_Simulator
         " (_) ",//10
         "  _  ",//11
         " (_) "};//12
-        private static string[] mChangesText = { "If you want to play as it is, press \"SpaceBar\" to start the simulation.", 
+        private static string[] mChangesText = { "If you want to play as it is, press \"SpaceBar\" to start the simulation.",
         "But if you want to change your monster's values, press \"Enter\" to enter one of your liking.",
         "Note: Do not choose a DP grater than the oponent's AP. More about that in the 'How To Play' menu."};
         private static int x1 = Lobby.CenterTextX(VSText[0] + VSText[1] + VSText[2] + "    ");
         private static int x2 = x1 + VSText[0].Length + VSText[1].Length + 8;
         private static int offSet;
+        private static ConsoleKeyInfo key;
 
-        Monster Orc = new Monster(orc[0], orc[1], orc[2], orc[3], orc[4], "Orc");
-        Monster Troll = new Monster(troll[0], troll[1], troll[2], troll[3], troll[4], "Troll");
-        Monster Goblin = new Monster(goblin[0], goblin[1], goblin[2], goblin[3], goblin[4], "Goblin");
+        static Monster Orc = new Monster(orc[0], orc[1], orc[2], orc[3], orc[4], "Orc");
+        static Monster Troll = new Monster(troll[0], troll[1], troll[2], troll[3], troll[4], "Troll");
+        static Monster Goblin = new Monster(goblin[0], goblin[1], goblin[2], goblin[3], goblin[4], "Goblin");
 
+
+        
+         
         public static void PrintMonsterSelection()
         {
             Lobby.windowSize[0] = Console.LargestWindowWidth / 2;
@@ -82,6 +86,10 @@ namespace Monsterkampf_Simulator
         private static void AskForChanges()
         {
             PrintMChangesText();
+            key = Console.ReadKey(true);
+            if (key.Key == ConsoleKey.Enter)
+                GetMValueInput();
+            //else if (key.Key == ConsoleKey.Spacebar)
 
         }
 
@@ -113,7 +121,7 @@ namespace Monsterkampf_Simulator
             DisplayVS(true);
 
             offSet = 3;
-            for (int i = 0; i < 3; i++) 
+            for (int i = 0; i < 3; i++)
             {
                 Lobby.PrintText(mChangesText[i], Lobby.defaultFColor, Lobby.CenterTextX(mChangesText[i]), Lobby.CenterTextY(offSet));
                 offSet += 2;
@@ -132,7 +140,7 @@ namespace Monsterkampf_Simulator
                     Lobby.PrintText(GetMonsterStats(monsterPlayer[1])[i], Lobby.defaultFColor, x1, Lobby.CenterTextY(offSet));
                     offSet++;
                 }
-                offSet = -2; 
+                offSet = -2;
                 for (int i = 0; i < 4; i++)
                 {
                     Lobby.PrintText(GetMonsterStats(monsterPlayer[2])[i], Lobby.defaultFColor, x2, Lobby.CenterTextY(offSet));
@@ -142,7 +150,7 @@ namespace Monsterkampf_Simulator
             offSet = -11 + VSOffset;
             DisplayPlayer(1, _stats, x1, Lobby.CenterTextY(offSet));
             DisplayPlayer(2, _stats, x2, Lobby.CenterTextY(offSet));
-            offSet ++;
+            offSet++;
             for (int i = 2; i < 7; i++)
             {
                 Lobby.PrintText(VSText[i], Lobby.defaultFColor, Lobby.CenterTextX(VSText[i]), Lobby.CenterTextY(offSet + VSOffset));
@@ -155,7 +163,7 @@ namespace Monsterkampf_Simulator
         {
             while (true)
             {
-                ConsoleKeyInfo key = Console.ReadKey(true);
+                key = Console.ReadKey(true);
                 if (key.Key == ConsoleKey.D1)
                 {
                     if (currentPlayer == 1)
@@ -231,6 +239,82 @@ namespace Monsterkampf_Simulator
                     Monster.DrawMonster(goblin[0], _x, _y);
                 }
             }
+        }
+        private static void GetMValueInput() // Texteingabe für Monster Werten
+        {
+            string input = "";
+            int x = 0;
+            bool end = false;
+
+            for (int p = 1; p < 3; p++)
+            {
+                if (end) break;
+                else if (p == 1) x = x1 + 4;
+                else if (p == 2) x = x2 + 4;
+                offSet = Lobby.CenterTextY(-2);
+
+                for (int i = 1; i < 5; i++)
+                {
+                    if (end) break;
+                    while (true)
+                    {
+                        Console.SetCursorPosition(x + input.Length, offSet);
+                        Console.CursorVisible = true;
+                        key = Console.ReadKey(true);
+                        if (key.Key == ConsoleKey.Escape) // Eingabe ohne änderung beenden
+                        {
+                            Console.CursorVisible = false;
+                            end = true;
+                            break;
+                        }
+                        else if (Char.IsDigit(key.KeyChar) == true && input.Length < 3) // Input muss Zahl sein
+                        {
+                            input += key.KeyChar;
+                            Console.Write(key.KeyChar);
+                        }
+                        else if (key.Key == ConsoleKey.Backspace && input.Length > 0) // Letzte Input löschen
+                        {
+                            input = input.Remove(input.Length - 1);
+
+                            Console.SetCursorPosition(x + input.Length, offSet);
+                            Console.Write(' ');
+                            Console.SetCursorPosition(x + input.Length, offSet);
+                        }
+                        else if (input.Length == 5 && key.Key == ConsoleKey.Enter) // Eingabe bestätigen
+                        {
+                            Console.CursorVisible = false;
+                            if (int.TryParse(input, out int mValue))
+                            {
+                                if (monsterPlayer[p] == orc[0])
+                                    orc[i] = mValue;
+                                else if (monsterPlayer[p] == troll[0])
+                                    troll[i] = mValue;
+                                else if (monsterPlayer[p] == goblin[0])
+                                    goblin[i] = mValue;
+                            }
+                            SetMValues();
+                            break;
+                        }
+                    }
+                    offSet++;
+                }
+            }
+        }
+
+        private static void SetMValues()
+        {
+            Orc.HP = orc[1];
+            Orc.AP = orc[2];
+            Orc.DP = orc[3];
+            Orc.AS = orc[4];
+            Troll.HP = troll[1];
+            Troll.AP = troll[2];
+            Troll.DP = troll[3];
+            Troll.AS = troll[4];
+            Goblin.HP = goblin[1];
+            Goblin.AP = goblin[2];
+            Goblin.DP = goblin[3];
+            Goblin.AS = goblin[4];
         }
 
         public static string[] GetMonsterStats(int _monsterType)
