@@ -5,6 +5,8 @@ namespace Monsterkampf_Simulator
     {
         public static ConsoleColor defaultBColor = ConsoleColor.Black;
         public static ConsoleColor defaultFColor = ConsoleColor.White;
+        public static ConsoleColor selectedBColor = ConsoleColor.White;
+        public static ConsoleColor selectedFColor = ConsoleColor.Black;
         private static readonly string[] gameTitel = {
         "   _____                             __                   __                              _____ ",
         "  /     \\    ____    ____    _______/  |_   ____ _______ |  | _______     _____  ______ _/ ____\\",
@@ -18,8 +20,10 @@ namespace Monsterkampf_Simulator
         "                /        \\|  ||  Y Y  \\|  |  /|  |__ / __ \\_|  | (  <_> )|  | \\/                ",
         "               /_______  /|__||__|_|  /|____/ |____/(____  /|__|  \\____/ |__|                   ",
         "                       \\/           \\/                   \\/                                     "};
-        private static string[] getStarted = { "Press any key to get started!" };
+        private static string[] lobbyText = { "START", "HOW TO PLAY", "CREDITS" , ">", "<" };
         public static int[] windowSize = {Console.LargestWindowWidth, Console.LargestWindowHeight};
+        private static int offSet;
+        private static ConsoleKeyInfo key;
 
         static void Main(string[] args)
         {
@@ -34,11 +38,34 @@ namespace Monsterkampf_Simulator
             Console.Clear();
 
             PrintGameTitel();
-            PrintText(getStarted[0], defaultFColor, CenterTextX(getStarted[0]), CenterTextY(7));
-
-            Console.ReadKey(true);
+            GetLobbyInput();
 
             MonsterSettings.PrintMonsterSelection();
+        }
+
+        private static void GetLobbyInput()
+        {
+            offSet = 7;
+            int selected = 0;
+            for (int i = 0; i < 3; i++)
+            {
+                PrintText(lobbyText[i], defaultFColor, CenterTextX(lobbyText[0]), CenterTextY(offSet));
+                offSet++;
+            }
+            while (true)
+            {
+                SetColors(true);
+                key = Console.ReadKey(true);
+                if (key.Key == ConsoleKey.UpArrow && selected > 0)
+                {
+                    PrintText(lobbyText[selected]);
+                    selected++;
+                }
+                else if (key.Key == ConsoleKey.DownArrow && selected < 2)
+                {
+                    selected--;
+                }
+            }
         }
 
         public static void ResizeWindow()
@@ -63,7 +90,7 @@ namespace Monsterkampf_Simulator
 
         private static void PrintGameTitel()
         {
-            int offSet = -7;
+            offSet = -7;
             for (int i = 0; i < 12; i++) 
             {
                 PrintText(gameTitel[i], ConsoleColor.Red, CenterTextX(gameTitel[i]), CenterTextY(offSet));
@@ -95,7 +122,21 @@ namespace Monsterkampf_Simulator
         {
             while (true)
             {
-                Console.ReadKey();
+                Console.ReadKey(true);
+            }
+        }
+
+        public static void SetColors(bool _selected)
+        {
+            if (_selected)
+            {
+                Console.BackgroundColor = selectedBColor;
+                Console.ForegroundColor = selectedFColor;
+            }
+            else
+            {
+                Console.BackgroundColor = defaultBColor; 
+                Console.ForegroundColor = defaultFColor;
             }
         }
     }

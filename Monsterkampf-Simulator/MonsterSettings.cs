@@ -37,7 +37,8 @@ namespace Monsterkampf_Simulator
         " (_) "};//12
         private static string[] mChangesText = { "If you want to play as it is, press \"SpaceBar\" to start the simulation.",
         "But if you want to change your monster's values, press \"Enter\" to enter one of your liking.",
-        "Note: Do not choose a DP grater than the oponent's AP. More about that in the 'How To Play' menu."};
+        "Note: Do not choose a DP grater than the oponent's AP. More about that in the 'How To Play' menu.",};
+        private static string[] values = { "     ", " HP: ", " AP: ", " DP: ", " AS: " };
         private static int x1 = Lobby.CenterTextX(VSText[0] + VSText[1] + VSText[2] + "    ");
         private static int x2 = x1 + VSText[0].Length + VSText[1].Length + 8;
         private static int offSet;
@@ -86,10 +87,14 @@ namespace Monsterkampf_Simulator
         private static void AskForChanges()
         {
             PrintMChangesText();
-            key = Console.ReadKey(true);
-            if (key.Key == ConsoleKey.Enter)
-                GetMValueInput();
-            //else if (key.Key == ConsoleKey.Spacebar)
+            while (true)
+            {
+                key = Console.ReadKey(true);
+                if (key.Key == ConsoleKey.Enter)
+                    GetMValueInput();
+                else if (key.Key == ConsoleKey.Spacebar)
+                    break;
+            }
 
         }
 
@@ -242,7 +247,6 @@ namespace Monsterkampf_Simulator
         }
         private static void GetMValueInput() // Texteingabe für Monster Werten
         {
-            string input = "";
             int x = 0;
             bool end = false;
 
@@ -256,6 +260,11 @@ namespace Monsterkampf_Simulator
                 for (int i = 1; i < 5; i++)
                 {
                     if (end) break;
+                    string input = "";
+
+                    Lobby.SetColors(true);
+                    Lobby.PrintText(values[i] + values[0], Lobby.selectedFColor, x - 5, offSet);
+
                     while (true)
                     {
                         Console.SetCursorPosition(x + input.Length, offSet);
@@ -280,8 +289,10 @@ namespace Monsterkampf_Simulator
                             Console.Write(' ');
                             Console.SetCursorPosition(x + input.Length, offSet);
                         }
-                        else if (input.Length == 5 && key.Key == ConsoleKey.Enter) // Eingabe bestätigen
+                        else if (key.Key == ConsoleKey.Enter) // Eingabe bestätigen
                         {
+                            if (input.Length < 1) input = "1";
+
                             Console.CursorVisible = false;
                             if (int.TryParse(input, out int mValue))
                             {
@@ -296,6 +307,8 @@ namespace Monsterkampf_Simulator
                             break;
                         }
                     }
+                    Lobby.SetColors(false);
+                    Lobby.PrintText(values[i] + input + values[0], Lobby.defaultFColor, x - 5, offSet);
                     offSet++;
                 }
             }
