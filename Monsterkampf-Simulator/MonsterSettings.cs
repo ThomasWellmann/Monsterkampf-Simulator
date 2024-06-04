@@ -36,8 +36,9 @@ namespace Monsterkampf_Simulator
         "  _  ",//11
         " (_) "};//12
         private static string[] mChangesText = { "If you want to play as it is, press \"SpaceBar\" to start the simulation.",
-        "But if you want to change your monster's values, press \"Enter\" to enter one of your liking.",
-        "Note: Do not choose a DP grater than the oponent's AP. More about that in the 'How To Play' menu.",};
+        "But if you first want to change your monster's values, press \"Enter\" to enter one of your liking.",
+        "Note: Do not choose a DP grater than the oponent's AP. More about that in the 'How To Play' menu.",
+        "Press \"ESC\" to exit the value input."};
         private static string[] values = { "     ", " HP: ", " AP: ", " DP: ", " AS: " };
         private static int x1 = Lobby.CenterTextX(VSText[0] + VSText[1] + VSText[2] + "    ");
         private static int x2 = x1 + VSText[0].Length + VSText[1].Length + 8;
@@ -51,22 +52,20 @@ namespace Monsterkampf_Simulator
 
         
          
-        public static void PrintMonsterSelection()
+        public static void PrintMonsterSettings()
         {
             Lobby.windowSize[0] = Console.LargestWindowWidth / 2;
             Lobby.windowSize[1] = Console.LargestWindowHeight;
             Lobby.ResizeWindow();
 
-            Lobby.SetColorsToDefault();
+            Lobby.SetColors(false);
             Console.Clear();
-
-            //Lobby.DrawMiddleLine();
 
             MonsterSelection();
 
             AskForChanges();
 
-            Lobby.Loop();
+            Simulation.PrintSimulation();
         }
 
         private static void MonsterSelection()
@@ -94,8 +93,10 @@ namespace Monsterkampf_Simulator
                     GetMValueInput();
                 else if (key.Key == ConsoleKey.Spacebar)
                     break;
-            }
+                else if (key.Key == ConsoleKey.Escape)
+                    Lobby.GoBack("ChangeMonsterValues");
 
+            }
         }
 
         private static void PrintSelectionText()
@@ -205,9 +206,9 @@ namespace Monsterkampf_Simulator
                     }
                     break;
                 }
-                else
+                else if (key.Key == ConsoleKey.Escape)
                 {
-                    continue;
+                    Lobby.GoBack("MonsterSettings");
                 }
             }
         }

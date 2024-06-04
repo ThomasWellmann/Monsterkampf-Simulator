@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Runtime.InteropServices;
 namespace Monsterkampf_Simulator
 {
     internal class Lobby
@@ -20,52 +21,72 @@ namespace Monsterkampf_Simulator
         "                /        \\|  ||  Y Y  \\|  |  /|  |__ / __ \\_|  | (  <_> )|  | \\/                ",
         "               /_______  /|__||__|_|  /|____/ |____/(____  /|__|  \\____/ |__|                   ",
         "                       \\/           \\/                   \\/                                     "};
-        private static string[] lobbyText = { "START", "HOW TO PLAY", "CREDITS" , ">", "<" };
+        private static string[] lobbyText = { "START", "HOW TO PLAY", "CREDITS" };
         public static int[] windowSize = {Console.LargestWindowWidth, Console.LargestWindowHeight};
         private static int offSet;
         private static ConsoleKeyInfo key;
+        private static int selected = 0;
 
         static void Main(string[] args)
         {
             PrintLobby();
-            
         }
         //█▀▄
         private static void PrintLobby()
         {
             ResizeWindow();
-            SetColorsToDefault();
+            SetColors(false);
             Console.Clear();
 
             PrintGameTitel();
             GetLobbyInput();
 
-            MonsterSettings.PrintMonsterSelection();
+            if (selected == 0)
+                MonsterSettings.PrintMonsterSettings();
+            else if (selected == 1)
+                HowToPlay.PrintHowToPlay();
+            else if (selected == 2)
+                Credits.PrintCredits();
         }
 
         private static void GetLobbyInput()
         {
             offSet = 7;
-            int selected = 0;
+            selected = 0;
             for (int i = 0; i < 3; i++)
             {
-                PrintText(lobbyText[i], defaultFColor, CenterTextX(lobbyText[0]), CenterTextY(offSet));
+                PrintText(lobbyText[i], defaultFColor, CenterTextX(lobbyText[i]), CenterTextY(offSet));
                 offSet++;
             }
+            offSet = 7;
             while (true)
             {
                 SetColors(true);
+                string toPrint = "<" + lobbyText[selected] + ">";
+                PrintText(toPrint, selectedFColor, CenterTextX(toPrint), CenterTextY(offSet + selected));
+
                 key = Console.ReadKey(true);
                 if (key.Key == ConsoleKey.UpArrow && selected > 0)
                 {
-                    PrintText(lobbyText[selected]);
-                    selected++;
+                    PrintUnselected(" " + lobbyText[selected] + " ");
+                    selected--;
                 }
                 else if (key.Key == ConsoleKey.DownArrow && selected < 2)
                 {
-                    selected--;
+                    PrintUnselected(" " + lobbyText[selected] + " ");
+                    selected++;
+                }
+                else if (key.Key == ConsoleKey.Enter || key.Key == ConsoleKey.Spacebar)
+                {
+                    break;
                 }
             }
+        }
+
+        private static void PrintUnselected(string _text)
+        {
+            SetColors(false);
+            PrintText(_text, defaultFColor, CenterTextX(_text), CenterTextY(offSet + selected));
         }
 
         public static void ResizeWindow()
@@ -74,11 +95,6 @@ namespace Monsterkampf_Simulator
             Console.SetWindowSize(windowSize[0], windowSize[1]);
         }
 
-        public static void SetColorsToDefault()
-        {
-            Console.ForegroundColor = defaultFColor;
-            Console.BackgroundColor = defaultBColor;
-        }
         public static void PrintText(string _toPrint, ConsoleColor _color, int _x, int _y)
         {
             ConsoleColor currentTextColor = Console.ForegroundColor;
@@ -138,6 +154,14 @@ namespace Monsterkampf_Simulator
                 Console.BackgroundColor = defaultBColor; 
                 Console.ForegroundColor = defaultFColor;
             }
+        }
+
+        public static void GoBack(string _currentPage) 
+        {
+            if (_currentPage == "MonsterSettings" || _currentPage == "HowToPlay" || _currentPage == "Credits")
+                PrintLobby();
+            else if (_currentPage == "ChangeMonsterValues")
+                MonsterSettings.PrintMonsterSettings();
         }
     }
 }
