@@ -38,7 +38,7 @@ namespace Monsterkampf_Simulator
         private static string[] mChangesText = { "If you want to play as it is, press \"SpaceBar\" to start the simulation.",
         "But if you first want to change your monster's values, press \"Enter\" to enter one of your liking.",
         "Note: Do not choose a DP grater than the oponent's AP. More about that in the 'How To Play' menu.",
-        "Press \"ESC\" to exit the value input."};
+        "Press \"ESC\" to exit the value input." };
         private static string[] values = { "     ", " HP: ", " AP: ", " DP: ", " AS: " };
         private static int x1 = Lobby.CenterTextX(VSText[0] + VSText[1] + VSText[2] + "    ");
         private static int x2 = x1 + VSText[0].Length + VSText[1].Length + 8;
@@ -49,9 +49,6 @@ namespace Monsterkampf_Simulator
         static Monster Troll = new Monster(troll[0], troll[1], troll[2], troll[3], troll[4], "Troll");
         static Monster Goblin = new Monster(goblin[0], goblin[1], goblin[2], goblin[3], goblin[4], "Goblin");
 
-
-        
-         
         public static void PrintMonsterSettings()
         {
             Lobby.windowSize[0] = Console.LargestWindowWidth / 2;
@@ -162,7 +159,6 @@ namespace Monsterkampf_Simulator
                 Lobby.PrintText(VSText[i], Lobby.defaultFColor, Lobby.CenterTextX(VSText[i]), Lobby.CenterTextY(offSet + VSOffset));
                 offSet++;
             }
-
         }
 
         private static void SelectMonster()
@@ -246,6 +242,7 @@ namespace Monsterkampf_Simulator
                 }
             }
         }
+
         private static void GetMValueInput() // Texteingabe für Monster Werten
         {
             int x = 0;

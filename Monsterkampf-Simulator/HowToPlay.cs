@@ -10,6 +10,9 @@ namespace Monsterkampf_Simulator
     {
         public static void PrintHowToPlay()
         {
+            Lobby.SetColors(false);
+            Console.Clear();
+
 
         }
     }
