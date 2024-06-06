@@ -51,10 +51,6 @@ namespace Monsterkampf_Simulator
 
         public static void PrintMonsterSettings()
         {
-            Lobby.windowSize[0] = Console.LargestWindowWidth / 2;
-            Lobby.windowSize[1] = Console.LargestWindowHeight;
-            Lobby.ResizeWindow();
-
             Lobby.SetColors(false);
             Console.Clear();
 
@@ -92,7 +88,6 @@ namespace Monsterkampf_Simulator
                     break;
                 else if (key.Key == ConsoleKey.Escape)
                     Lobby.GoBack("ChangeMonsterValues");
-
             }
         }
 
@@ -272,6 +267,7 @@ namespace Monsterkampf_Simulator
                         {
                             Console.CursorVisible = false;
                             end = true;
+                            SetMValues();
                             break;
                         }
                         else if (Char.IsDigit(key.KeyChar) == true && input.Length < 3) // Input muss Zahl sein

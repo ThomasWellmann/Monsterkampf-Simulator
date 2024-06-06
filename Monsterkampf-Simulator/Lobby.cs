@@ -8,6 +8,7 @@ namespace Monsterkampf_Simulator
         public static ConsoleColor defaultFColor = ConsoleColor.White;
         public static ConsoleColor selectedBColor = ConsoleColor.White;
         public static ConsoleColor selectedFColor = ConsoleColor.Black;
+        public static ConsoleColor titelColor = ConsoleColor.Red;
         private static readonly string[] gameTitel = {
         "   _____                             __                   __                              _____ ",
         "  /     \\    ____    ____    _______/  |_   ____ _______ |  | _______     _____  ______ _/ ____\\",
@@ -34,7 +35,7 @@ namespace Monsterkampf_Simulator
         //█▀▄
         private static void PrintLobby()
         {
-            ResizeWindow();
+            ResizeWindow(windowSize[0], windowSize[1]);
             SetColors(false);
             Console.Clear();
 
@@ -87,12 +88,6 @@ namespace Monsterkampf_Simulator
         {
             SetColors(false);
             PrintText(_text, defaultFColor, CenterTextX(_text), CenterTextY(offSet + selected));
-        }
-
-        public static void ResizeWindow()
-        {
-            Console.SetWindowPosition(0, 0);
-            Console.SetWindowSize(windowSize[0], windowSize[1]);
         }
 
         public static void PrintText(string _toPrint, ConsoleColor _color, int _x, int _y)
@@ -162,6 +157,12 @@ namespace Monsterkampf_Simulator
                 PrintLobby();
             else if (_currentPage == "ChangeMonsterValues")
                 MonsterSettings.PrintMonsterSettings();
+        }
+
+        public static void ResizeWindow(int _width, int _height)
+        {
+            Console.SetWindowPosition(0, 0);
+            Console.SetWindowSize(_width, _height);
         }
     }
 }
