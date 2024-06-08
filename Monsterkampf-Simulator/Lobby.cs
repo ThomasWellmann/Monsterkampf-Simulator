@@ -154,7 +154,7 @@ namespace Monsterkampf_Simulator
 
         public static void GoBack(string _currentPage) 
         {
-            if (_currentPage == "MonsterSettings" || _currentPage == "HowToPlay" || _currentPage == "Credits")
+            if (_currentPage == "MonsterSettings" || _currentPage == "HowToPlay" || _currentPage == "Credits" || _currentPage == "Simulation")
             {
                 PrintLobby();
             }

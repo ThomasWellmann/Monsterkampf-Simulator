@@ -22,7 +22,7 @@ namespace Monsterkampf_Simulator
         $"AP: {orc[2]}         AP: {troll[2]}         AP: {goblin[2]}",//5
         $"DP: {orc[3]}          DP: {troll[3]}         DP: {goblin[3]} ",//6
         $"AS: {orc[4]}          AS: {troll[4]}          AS: {goblin[4]}" };//7
-        private static string[] VSText = {"Player 1:", "Player 2:", //0//1
+        private static string[] VSText = {"Player 1:", "Player 2:", //0//1                                           //to do: array of arrays, simplify others // eingabe bestätigen mit alte werte
         " _    _______",//2
         "| |  / / ___/",//3
         "| | / /\\__ \\ ",//4
@@ -35,11 +35,6 @@ namespace Monsterkampf_Simulator
         " (_) ",//10
         "  _  ",//11
         " (_) "};//12
-        private static string[] mChangesText = { "If you want to play as it is, press \"SpaceBar\" to start the simulation.",
-        "But if you first want to change your monster's values, press \"Enter\" to enter one of your liking.",
-        "Note: Do not choose a DP grater than the oponent's AP. More about that in the 'How To Play' menu.",
-        "Press \"ESC\" to exit the value input." };
-        private static string[] values = { "     ", " HP: ", " AP: ", " DP: ", " AS: " };
         private static int x1 = Lobby.CenterTextX(VSText[0] + VSText[1] + VSText[2] + "    ");
         private static int x2 = x1 + VSText[0].Length + VSText[1].Length + 8;
         private static int offSet;
@@ -138,6 +133,10 @@ namespace Monsterkampf_Simulator
 
         private static void PrintMChangesText()
         {
+            string[] mChangesText = { "If you want to play as it is, press \"SpaceBar\" to start the simulation.",
+            "But if you first want to change your monster's values, press \"Enter\" to enter one of your liking.",
+            "Note: Do not choose a DP grater than the oponent's AP. More about that in the 'How To Play' menu.",
+            "Press \"ESC\" to exit the value input." };
             Console.Clear();
             DisplayVS(true);
 
@@ -269,6 +268,7 @@ namespace Monsterkampf_Simulator
 
         private static void GetMValueInput() // Texteingabe für Monster Werten
         {
+            string[] values = { "     ", " HP: ", " AP: ", " DP: ", " AS: " };
             int x = 0;
             bool end = false;
 
