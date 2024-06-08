@@ -20,7 +20,7 @@ namespace Monsterkampf_Simulator
             "Choose your Monster:",//0
             "▄ Press \"1\", \"2\" or \"3\" in your keyboard to select your Monster.",//1
             "▄ You can'i play as the same monster as your opponent.",//2
-            "▄ You will be able to personalyze your Monster's values once you select one.",//3
+            "▄ You will be able to personalyze your Monster's values once you select one."//3
         },
         new string [] {//z2
             "Changing it's values:",//0
@@ -36,17 +36,18 @@ namespace Monsterkampf_Simulator
             "▄ Orc: Most health and damage, but low defense and attacks very slowly.",//1
             "▄ Troll: Middle ground with solid stats, but no critical chance.",//2
             "▄ Goblin: High critical chanse and damage over all, but very squishy.",//3
-            "▄ New Monsters coming soon!", //4
+            "▄ On critical hit you do 5 more damage. You can't change a Monster's critical chance.",//4
+            "▄ New Monsters coming soon!"//5
         },
         new string [] {//z4
             "The simulation",//0
-            "▄ Once you press start, there is no coming back until one get's defeated (or 100s has passed).",//1
+            "▄ Once you press start, there is no coming back until one get's defeated (or 20 rounds has passed).",//1
             "▄ There is a detailed log of the fight as it happens.",//2
             "▄ The winner will be congratulated at the end of the fight.",//3
-            "▄ If a cheater is found, he will lose the fight instantly.",//4
+            "▄ If a cheater is found, he will lose the fight instantly."//4
         },
         new string [] {//z5
-            "You can press \"ESC\" at any time to get to the previous page.", //0
+            "You can press \"ESC\" at any time to get to the previous page.",//0
         }
     };
         private static int x1 = Lobby.CenterTextX("") - howToPlayText[2][1].Length - 3; //[2][1] ist der längste Text links
@@ -55,6 +56,7 @@ namespace Monsterkampf_Simulator
         private static int y2 = y1 + howToPlayText[0].GetLength(0) + 2;//1. y-Wert des Textes
         private static int y3 = y2 + howToPlayText[3].GetLength(0) * 2 + 2;//2. y-Wert des Textes
         private static int y4 = y3 + howToPlayText[2].GetLength(0) * 2 + 1;//y-Wert des Hinweises unten
+        private static ConsoleKeyInfo key;
 
         private static int offSet = 0;
         public static void PrintHowToPlay()
@@ -62,7 +64,7 @@ namespace Monsterkampf_Simulator
             Lobby.SetColors(false);
             Console.Clear();
 
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < howToPlayText[0].GetLength(0); i++)
             {
                Lobby.PrintText(howToPlayText[0][i], Lobby.titelColor, Lobby.CenterTextX(howToPlayText[0][0]), y1 + i);
             }
@@ -83,6 +85,14 @@ namespace Monsterkampf_Simulator
             }
             Lobby.PrintText(howToPlayText[5][0], Lobby.defaultFColor, Lobby.CenterTextX(howToPlayText[5][0]), y4);
 
+            while (true)
+            {
+                key = Console.ReadKey(true);
+                if (key.Key == ConsoleKey.Escape)
+                    Lobby.GoBack("HowToPlay"); 
+                else
+                    continue;
+            }
         }
     }
 }

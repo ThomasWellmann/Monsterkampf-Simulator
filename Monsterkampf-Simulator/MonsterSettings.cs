@@ -8,9 +8,9 @@ namespace Monsterkampf_Simulator
 {
     internal class MonsterSettings
     {
-        public static int[] orc = { 1, 200, 20, 5, 3 };
-        public static int[] troll = { 2, 175, 15, 10, 5 };
-        public static int[] goblin = { 3, 150, 20, 0, 10 };
+        public static int[] orc = { 1, 200, 20, 5, 1 };
+        public static int[] troll = { 2, 175, 15, 10, 2 };
+        public static int[] goblin = { 3, 150, 20, 0, 3 };
         public static int currentPlayer = 1;
         public static int[] monsterPlayer = { 0, 0, 0 };
         public static ConsoleColor[] colorPlayer = { Lobby.defaultBColor, ConsoleColor.Blue, ConsoleColor.Red };
@@ -22,7 +22,7 @@ namespace Monsterkampf_Simulator
         $"AP: {orc[2]}         AP: {troll[2]}         AP: {goblin[2]}",//5
         $"DP: {orc[3]}          DP: {troll[3]}         DP: {goblin[3]} ",//6
         $"AS: {orc[4]}          AS: {troll[4]}          AS: {goblin[4]}" };//7
-        private static string[] VSText = {"Player 1:", "Player 2:", //0/1
+        private static string[] VSText = {"Player 1:", "Player 2:", //0//1
         " _    _______",//2
         "| |  / / ___/",//3
         "| | / /\\__ \\ ",//4
@@ -45,20 +45,42 @@ namespace Monsterkampf_Simulator
         private static int offSet;
         private static ConsoleKeyInfo key;
 
-        static Monster Orc = new Monster(orc[0], orc[1], orc[2], orc[3], orc[4], "Orc");
-        static Monster Troll = new Monster(troll[0], troll[1], troll[2], troll[3], troll[4], "Troll");
-        static Monster Goblin = new Monster(goblin[0], goblin[1], goblin[2], goblin[3], goblin[4], "Goblin");
+        public static Monster Orc = new Monster(orc[0], orc[1], orc[2], orc[3], orc[4], "Orc");
+        public static Monster Troll = new Monster(troll[0], troll[1], troll[2], troll[3], troll[4], "Troll");
+        public static Monster Goblin = new Monster(goblin[0], goblin[1], goblin[2], goblin[3], goblin[4], "Goblin");
 
         public static void PrintMonsterSettings()
         {
             Lobby.SetColors(false);
             Console.Clear();
 
+            SetDefaultValues();
             MonsterSelection();
 
             AskForChanges();
 
             Simulation.PrintSimulation();
+        }
+
+        private static void SetDefaultValues()
+        {
+            monsterPlayer[1] = 0;
+            monsterPlayer[2] = 0;
+            currentPlayer = 1;
+            VSText[0] = "Player 1:";
+            VSText[1] = "Player 2:";
+            orc[1] = 200;
+            orc[2] = 20;
+            orc[3] = 5;
+            orc[4] = 3;
+            troll[1] = 175;
+            troll[2] = 15;
+            troll[3] = 10;
+            troll[4] = 5;
+            goblin[1] = 150;
+            goblin[2] = 20;
+            goblin[3] = 0;
+            goblin[4] = 10;
         }
 
         private static void MonsterSelection()
@@ -89,6 +111,7 @@ namespace Monsterkampf_Simulator
                 else if (key.Key == ConsoleKey.Escape)
                     Lobby.GoBack("ChangeMonsterValues");
             }
+            Simulation.PrintSimulation();
         }
 
         private static void PrintSelectionText()
@@ -126,7 +149,7 @@ namespace Monsterkampf_Simulator
             }
         }
 
-        private static void DisplayVS(bool _stats)
+        public static void DisplayVS(bool _stats)
         {
             int VSOffset = 0;
             if (_stats)
@@ -166,10 +189,12 @@ namespace Monsterkampf_Simulator
                     if (currentPlayer == 1)
                     {
                         monsterPlayer[1] = orc[0];
+                        Simulation.monsterPlayer[1] = Orc;
                     }
                     else if (currentPlayer == 2 && monsterPlayer[1] != orc[0])
                     {
                         monsterPlayer[2] = orc[0];
+                        Simulation.monsterPlayer[2] = Orc;
                     }
                     break;
                 }
@@ -178,10 +203,12 @@ namespace Monsterkampf_Simulator
                     if (currentPlayer == 1)
                     {
                         monsterPlayer[1] = troll[0];
+                        Simulation.monsterPlayer[1] = Troll;
                     }
                     else if (currentPlayer == 2 && monsterPlayer[1] != troll[0])
                     {
                         monsterPlayer[2] = troll[0];
+                        Simulation.monsterPlayer[2] = Troll;
                     }
                     break;
                 }
@@ -190,10 +217,12 @@ namespace Monsterkampf_Simulator
                     if (currentPlayer == 1)
                     {
                         monsterPlayer[1] = goblin[0];
+                        Simulation.monsterPlayer[1] = Goblin;
                     }
                     else if (currentPlayer == 2 && monsterPlayer[1] != goblin[0])
                     {
                         monsterPlayer[2] = goblin[0];
+                        Simulation.monsterPlayer[2] = Goblin;
                     }
                     break;
                 }

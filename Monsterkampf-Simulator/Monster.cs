@@ -15,18 +15,20 @@ namespace Monsterkampf_Simulator
         public int DP { get; set; }
         public int AS { get; set; }
         public string name { get; set; }
+        private static string crited;
+        static Random rnd = new Random();
 
-        private static string[] monsterDrawn = { 
-            "  ██  ", 
-            "█▀██▀█", 
-            "█▄██▄█", 
+        private static string[] monsterDrawn = {
+            "  ██  ",
+            "█▀██▀█",
+            "█▄██▄█",
             " █  █ " };
 
         public Monster(int _type, int _hp, int _ap, int _dp, int _as, string _name)
         {
-            type = _type; 
-            HP = _hp; 
-            AP = _ap; 
+            type = _type;
+            HP = _hp;
+            AP = _ap;
             DP = _dp;
             AS = _as;
             name = _name;
@@ -49,12 +51,43 @@ namespace Monsterkampf_Simulator
             }
         }
 
-        public static void Attack(Monster _attacker, Monster _defender)
+        public static string[] Attack(Monster _attacker, Monster _defender)
         {
-            int dmgDelt = _attacker.AP - _defender.DP;
+            int dmgDelt = 0;
+            if (_attacker.type == 1)
+            {
+                dmgDelt = _attacker.AP - _defender.DP;
+                dmgDelt += GetCrit(20);
+            }
+            else if (_attacker.type == 2)
+            {
+                dmgDelt = _attacker.AP - _defender.DP;
+                dmgDelt += GetCrit(0);
+            }
+            else if (_attacker.type == 3)
+            {
+                dmgDelt = _attacker.AP - _defender.DP;
+                dmgDelt += GetCrit(30);
+            }
             _defender.HP -= dmgDelt;
-            int[] attackLog = {dmgDelt, _defender.HP};
-            //return attackLog;
+            if (_defender.HP < 0) _defender.HP = 0;
+            string[] attackLog = {$"{dmgDelt}", $"{_defender.HP}", crited};
+            return attackLog;
+        }
+
+        private static int GetCrit(int _criticalChance)
+        {
+            int crit = rnd.Next(0, 100);
+            if (crit < _criticalChance)
+            {
+                crited = "criticaly ";
+                return 5;
+            }
+            else
+            {
+                crited = "";
+                return 0;
+            }
         }
     }
 }

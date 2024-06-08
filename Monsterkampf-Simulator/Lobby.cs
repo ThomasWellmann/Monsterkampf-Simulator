@@ -38,6 +38,7 @@ namespace Monsterkampf_Simulator
             ResizeWindow(windowSize[0], windowSize[1]);
             SetColors(false);
             Console.Clear();
+            Console.CursorVisible = true;
 
             PrintGameTitel();
             GetLobbyInput();
@@ -154,9 +155,13 @@ namespace Monsterkampf_Simulator
         public static void GoBack(string _currentPage) 
         {
             if (_currentPage == "MonsterSettings" || _currentPage == "HowToPlay" || _currentPage == "Credits")
+            {
                 PrintLobby();
+            }
             else if (_currentPage == "ChangeMonsterValues")
+            {
                 MonsterSettings.PrintMonsterSettings();
+            }
         }
 
         public static void ResizeWindow(int _width, int _height)
