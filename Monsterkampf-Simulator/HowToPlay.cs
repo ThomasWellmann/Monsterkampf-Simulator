@@ -15,14 +15,12 @@ namespace Monsterkampf_Simulator
             "|       ||  _  |  |  |  |   |   |  |  _  | |    __/  ||  _  |  |  |",//2
             "|___|___||_____|________|   |___|  |_____| |___|  |__||___._|___  |",//3
             "                                                            |_____|",//4
-        ],
-        [//z1
+        ],[//z1
             "Choose your Monster:",//0
             "▄ Press \"1\", \"2\" or \"3\" in your keyboard to select your Monster.",//1
             "▄ You can'i play as the same monster as your opponent.",//2
             "▄ You will be able to personalyze your Monster's values once you select one."//3
-        ],
-        [//z2
+        ],[//z2
             "Changing it's values:",//0
             "▄ Press \"Enter\" to enter the value configuration or \"SpaceBar\" to start the simulation.",//1
             "▄ Once setting new values, press \"Enter\" to jump to the next one.",//2
@@ -30,23 +28,20 @@ namespace Monsterkampf_Simulator
             "▄ Getting through all the values also saves the new ones.",//4
             "▄ Lowest possible value is \"1\", and the highest is \"999\".",//5
             "▄ We advise not to choose a DP grater than the enemy's AP. This is cheating!"//6
-        ],
-        [//z3
+        ],[//z3
             "The Monsters:" ,//0
             "▄ Orc: Most health and damage, but low defense and attacks very slowly.",//1
             "▄ Troll: Middle ground with solid stats, but no critical chance.",//2
             "▄ Goblin: High critical chanse and damage over all, but very squishy.",//3
             "▄ On critical hit you do 5 more damage. You can't change a Monster's critical chance.",//4
             "▄ New Monsters coming soon!"//5
-        ],
-        [//z4
+        ],[//z4
             "The simulation",//0
             "▄ Once you press start, there is no coming back until one get's defeated (or 20 rounds has passed).",//1
             "▄ There is a detailed log of the fight as it happens.",//2
             "▄ The winner will be congratulated at the end of the fight.",//3
             "▄ If a cheater is found, he will lose the fight instantly."//4
-        ],
-        [//z5
+        ],[//z5
             "You can press \"ESC\" at any time to get to the previous page.",//0
         ]};
         private static int x1 = Lobby.CenterTextX("") - howToPlayText[2][1].Length - 3; //[2][1] ist der längste Text links

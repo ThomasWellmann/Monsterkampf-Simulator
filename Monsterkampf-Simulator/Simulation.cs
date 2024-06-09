@@ -19,12 +19,14 @@ namespace Monsterkampf_Simulator
         private static int y = Lobby.CenterTextY(0);
         private static ConsoleKeyInfo key;
         private static ConsoleColor winnerColor = ConsoleColor.Green;
+        private static Random rnd = new Random();
+        private static bool sameAS;
         public static void PrintSimulation()
         {
             Lobby.SetColors(false);
             Console.Clear();
 
-            GetStarted();
+            StartSim();
             CheckIfCheating();
 
             Console.CursorVisible = false;
@@ -41,20 +43,27 @@ namespace Monsterkampf_Simulator
             }
         }
 
-        private static void GetStarted()
+        private static void StartSim()
         {
             cheater = 0;
             saint = 0;
+            sameAS = false;
             draw = false;
             MonsterSettings.DisplayVS(false);
             currentPlayer = GetStarter();
-            string[] starterText = { $"{monsterPlayer[GetStarter()].name} has more AS, meaning it will start attacking!", "3...", "2...", "1...", "Fight!" };
-            for (int i = 0; i < starterText.GetLength(0); i++)
+            string[] starterText = { $"Both monsters have the same AS, meaning {monsterPlayer[GetStarter()].name}, which was chosen randomly, will start attacking!",
+                $"{monsterPlayer[GetStarter()].name} has more AS, meaning it will start attacking!",
+                "3...", "2...", "1...", "Fight!"};
+
+            Lobby.PrintText(starterText[(sameAS) ? 0 : 1], Lobby.defaultFColor, Lobby.CenterTextX(starterText[(sameAS) ? 0 : 1]), y);
+            Thread.Sleep(1000);
+            y++;
+            for (int i = 2; i < starterText.GetLength(0); i++)
             {
-                Lobby.PrintText(starterText[i], Lobby.defaultFColor, Lobby.CenterTextX(starterText[i]), y + i);
                 Thread.Sleep(1000);
+                Lobby.PrintText(starterText[i], Lobby.defaultFColor, Lobby.CenterTextX(starterText[i]), y + i - 2);
             }
-            y += 6;
+            y += 5;
         }
 
         private static void BattleLoop()
@@ -98,7 +107,6 @@ namespace Monsterkampf_Simulator
 
         private static void CheckIfCheating()
         {
-            string cheaterText = $"{monsterPlayer[cheater].name} cheated when choosing a grater DP than it's opponent AP. {monsterPlayer[saint].name} has won!";
             if (monsterPlayer[1].DP > monsterPlayer[2].AP)
             {
                 cheater = 1;
@@ -109,8 +117,10 @@ namespace Monsterkampf_Simulator
                 cheater = 2;
                 saint = 1;
             }
+            string cheaterText = $"{monsterPlayer[cheater].name} cheated when choosing a grater DP than it's opponent AP. {monsterPlayer[saint].name} has won!";
             if (cheater != 0)
             {
+                Console.Clear();
                 Lobby.PrintText(cheaterText, Lobby.titelColor, Lobby.CenterTextX(cheaterText), Lobby.CenterTextY(1));
                 Thread.Sleep(3000);
                 Lobby.GoBack("Simulation");
@@ -152,10 +162,17 @@ namespace Monsterkampf_Simulator
                 otherPlayer = 2;
                 return 1;
             }
-            else
+            else if (monsterPlayer[2].AS > monsterPlayer[1].AS)
             {
                 otherPlayer = 1;
                 return 2;
+            }
+            else
+            {
+                int rndStarter = rnd.Next(1, 3);
+                otherPlayer = (rndStarter == 1) ? 2 : 1;
+                sameAS = true;
+                return rndStarter;
             }
         }
 

@@ -200,9 +200,8 @@ namespace Monsterkampf_Simulator
                         Simulation.monsterPlayer[2] = Orc;
                     }
                     else
-                    {
                         continue;
-                    }
+                    
                     break;
                 }
                 else if (key.Key == ConsoleKey.D2)
@@ -218,9 +217,8 @@ namespace Monsterkampf_Simulator
                         Simulation.monsterPlayer[2] = Troll;
                     }
                     else
-                    {
                         continue;
-                    }
+                    
                     break;
                 }
                 else if (key.Key == ConsoleKey.D3)
@@ -236,9 +234,8 @@ namespace Monsterkampf_Simulator
                         Simulation.monsterPlayer[2] = Goblin;
                     }
                     else
-                    {
                         continue;
-                    }
+                    
                     break;
                 }
                 else if (key.Key == ConsoleKey.Escape)
