@@ -20,23 +20,28 @@ namespace Monsterkampf_Simulator
         $"(1): Orc       (2): Troll     (3): Goblin",//3
         $"HP: {orc[1]}        HP: {troll[1]}        HP: {goblin[1]}",//4
         $"AP: {orc[2]}         AP: {troll[2]}         AP: {goblin[2]}",//5
-        $"DP: {orc[3]}          DP: {troll[3]}         DP: {goblin[3]} ",//6
-        $"AS: {orc[4]}          AS: {troll[4]}          AS: {goblin[4]}" };//7
-        private static string[] VSText = {"Player 1:", "Player 2:", //0//1                                           //to do: array of arrays, simplify others // eingabe bestätigen mit alte werte
-        " _    _______",//2
-        "| |  / / ___/",//3
-        "| | / /\\__ \\ ",//4
-        "| |/ /___/ / ",//5
-        "|___//____/  ",//6
-        //
-        " ___ ",//7
-        "(_, )",//8
-        "  // ",//9
-        " (_) ",//10
-        "  _  ",//11
-        " (_) "};//12
-        private static int x1 = Lobby.CenterTextX(VSText[0] + VSText[1] + VSText[2] + "    ");
-        private static int x2 = x1 + VSText[0].Length + VSText[1].Length + 8;
+        $"DP: {orc[3]}          DP: {troll[3]}         DP: {goblin[3]}",//6
+        $"AS: {orc[4]}          AS: {troll[4]}          AS: {goblin[4]}"};//7
+        private static string[][] VSText = {
+        [//z0
+            "Player 1:",//0 
+            "Player 2:"//1
+        ],[//z1
+            " _    _______",//0
+            "| |  / / ___/",//1
+            "| | / /\\__ \\ ",//2
+            "| |/ /___/ / ",//3
+            "|___//____/  "//4
+        ],[//z2
+            " ___ ",//0
+            "(_, )",//1
+            "  // ",//2
+            " (_) ",//3
+            "  _  ",//4
+            " (_) "//5
+        ]};
+        private static int x1 = Lobby.CenterTextX(VSText[0][0] + VSText[0][1] + VSText[1][0] + "    ");
+        private static int x2 = x1 + VSText[0][0].Length + VSText[0][1].Length + 8;
         private static int offSet;
         private static ConsoleKeyInfo key;
 
@@ -62,8 +67,8 @@ namespace Monsterkampf_Simulator
             monsterPlayer[1] = 0;
             monsterPlayer[2] = 0;
             currentPlayer = 1;
-            VSText[0] = "Player 1:";
-            VSText[1] = "Player 2:";
+            VSText[0][0] = "Player 1:";
+            VSText[0][1] = "Player 2:";
             orc[1] = 200;
             orc[2] = 20;
             orc[3] = 5;
@@ -89,8 +94,8 @@ namespace Monsterkampf_Simulator
 
             SelectMonster();
 
-            VSText[0] = GetMonsterStats(monsterPlayer[1])[4];
-            VSText[1] = GetMonsterStats(monsterPlayer[2])[4];
+            VSText[0][0] = GetMonsterStats(monsterPlayer[1])[4];
+            VSText[0][1] = GetMonsterStats(monsterPlayer[2])[4];
         }
 
         private static void AskForChanges()
@@ -126,7 +131,7 @@ namespace Monsterkampf_Simulator
             offSet = 10;
             for (int i = 4; i < 8; i++)
             {
-                Lobby.PrintText(selectionText[i], Lobby.defaultFColor, Lobby.CenterTextX(selectionText[i]), Lobby.CenterTextY(offSet));
+                Lobby.PrintText(selectionText[i], Lobby.defaultFColor, Lobby.CenterTextX(selectionText[4]), Lobby.CenterTextY(offSet));
                 offSet++;
             }
         }
@@ -150,30 +155,29 @@ namespace Monsterkampf_Simulator
 
         public static void DisplayVS(bool _stats)
         {
+            Lobby.SetColors(false);
             int VSOffset = 0;
             if (_stats)
             {
                 VSOffset = 2;
-                offSet = -2;
-                for (int i = 0; i < 4; i++)
+                for (int i = 1; i < 3; i++)
                 {
-                    Lobby.PrintText(GetMonsterStats(monsterPlayer[1])[i], Lobby.defaultFColor, x1, Lobby.CenterTextY(offSet));
-                    offSet++;
-                }
-                offSet = -2;
-                for (int i = 0; i < 4; i++)
-                {
-                    Lobby.PrintText(GetMonsterStats(monsterPlayer[2])[i], Lobby.defaultFColor, x2, Lobby.CenterTextY(offSet));
-                    offSet++;
+                    offSet = -2;
+                    int x = (i == 1) ? x1 - 1 : x2 - 1;
+                    for (int j = 0; j < 4; j++)
+                    {
+                        Lobby.PrintText(GetMonsterStats(monsterPlayer[i])[j], Lobby.defaultFColor, x, Lobby.CenterTextY(offSet));
+                        offSet++;
+                    }
                 }
             }
-            offSet = -11 + VSOffset;
+            offSet = (!_stats) ? -11 : -9;
             DisplayPlayer(1, _stats, x1, Lobby.CenterTextY(offSet));
             DisplayPlayer(2, _stats, x2, Lobby.CenterTextY(offSet));
             offSet++;
-            for (int i = 2; i < 7; i++)
+            for (int i = 0; i < VSText[1].GetLength(0); i++)
             {
-                Lobby.PrintText(VSText[i], Lobby.defaultFColor, Lobby.CenterTextX(VSText[i]), Lobby.CenterTextY(offSet + VSOffset));
+                Lobby.PrintText(VSText[1][i], Lobby.defaultFColor, Lobby.CenterTextX(VSText[1][0]), Lobby.CenterTextY(offSet + VSOffset));
                 offSet++;
             }
         }
@@ -195,6 +199,10 @@ namespace Monsterkampf_Simulator
                         monsterPlayer[2] = orc[0];
                         Simulation.monsterPlayer[2] = Orc;
                     }
+                    else
+                    {
+                        continue;
+                    }
                     break;
                 }
                 else if (key.Key == ConsoleKey.D2)
@@ -208,6 +216,10 @@ namespace Monsterkampf_Simulator
                     {
                         monsterPlayer[2] = troll[0];
                         Simulation.monsterPlayer[2] = Troll;
+                    }
+                    else
+                    {
+                        continue;
                     }
                     break;
                 }
@@ -223,6 +235,10 @@ namespace Monsterkampf_Simulator
                         monsterPlayer[2] = goblin[0];
                         Simulation.monsterPlayer[2] = Goblin;
                     }
+                    else
+                    {
+                        continue;
+                    }
                     break;
                 }
                 else if (key.Key == ConsoleKey.Escape)
@@ -234,20 +250,20 @@ namespace Monsterkampf_Simulator
 
         public static void DisplayPlayer(int _player, bool _stats, int _x, int _y)
         {
-            Lobby.PrintText(VSText[_player - 1], colorPlayer[_player], _x, _y);
+            Lobby.PrintText(VSText[0][_player - 1], colorPlayer[_player], _x, _y);
             _y++;
             if (monsterPlayer[_player] == 0)
             {
-                for (int i = 0; i < 6; i++)
+                for (int i = 0; i < VSText[2].GetLength(0); i++)
                 {
-                    Lobby.PrintText(VSText[i + 7], colorPlayer[_player], _x + 2, _y + i);
+                    Lobby.PrintText(VSText[2][i], colorPlayer[_player], _x + 2, _y + i);
                 }
             }
             else
             {
-                for (int i = 0; i < 6; i++)
+                for (int i = 0; i < VSText[2].GetLength(0); i++)
                 {
-                    Lobby.PrintText(VSText[i + 7], Lobby.defaultBColor, _x + 2, _y + i);
+                    Lobby.PrintText(VSText[2][i], Lobby.defaultBColor, _x + 2, _y + i);
                 }
                 _x++;
                 _y++;
@@ -275,9 +291,8 @@ namespace Monsterkampf_Simulator
             for (int p = 1; p < 3; p++)
             {
                 if (end) break;
-                else if (p == 1) x = x1 + 4;
-                else if (p == 2) x = x2 + 4;
-                offSet = Lobby.CenterTextY(-2);
+                x = (p == 1) ? x1 + 4 : x2 + 4;
+                int valueOffSet = Lobby.CenterTextY(-2);
 
                 for (int i = 1; i < 5; i++)
                 {
@@ -285,11 +300,11 @@ namespace Monsterkampf_Simulator
                     string input = "";
 
                     Lobby.SetColors(true);
-                    Lobby.PrintText(values[i] + values[0], Lobby.selectedFColor, x - 5, offSet);
+                    Lobby.PrintText(values[i] + values[0], Lobby.selectedFColor, x - 5, valueOffSet);
 
                     while (true)
                     {
-                        Console.SetCursorPosition(x + input.Length, offSet);
+                        Console.SetCursorPosition(x + input.Length, valueOffSet);
                         Console.CursorVisible = true;
                         key = Console.ReadKey(true);
                         if (key.Key == ConsoleKey.Escape) // Eingabe ohne änderung beenden
@@ -297,6 +312,7 @@ namespace Monsterkampf_Simulator
                             Console.CursorVisible = false;
                             end = true;
                             SetMValues();
+                            DisplayVS(true);
                             break;
                         }
                         else if (Char.IsDigit(key.KeyChar) == true && input.Length < 3) // Input muss Zahl sein
@@ -308,15 +324,16 @@ namespace Monsterkampf_Simulator
                         {
                             input = input.Remove(input.Length - 1);
 
-                            Console.SetCursorPosition(x + input.Length, offSet);
+                            Console.SetCursorPosition(x + input.Length, valueOffSet);
                             Console.Write(' ');
-                            Console.SetCursorPosition(x + input.Length, offSet);
+                            Console.SetCursorPosition(x + input.Length, valueOffSet);
                         }
                         else if (key.Key == ConsoleKey.Enter) // Eingabe bestätigen
                         {
-                            if (input.Length < 1) input = "1";
-
                             Console.CursorVisible = false;
+                            if (input == "0") input = "1";
+                            if (input == "") break;
+
                             if (int.TryParse(input, out int mValue))
                             {
                                 if (monsterPlayer[p] == orc[0])
@@ -330,9 +347,8 @@ namespace Monsterkampf_Simulator
                             break;
                         }
                     }
-                    Lobby.SetColors(false);
-                    Lobby.PrintText(values[i] + input + values[0], Lobby.defaultFColor, x - 5, offSet);
-                    offSet++;
+                    DisplayVS(true);
+                    valueOffSet++;
                 }
             }
         }
@@ -357,17 +373,17 @@ namespace Monsterkampf_Simulator
         {
             if (_monsterType == 1)
             {
-                string[] orcStats = { $"HP: {orc[1]}", $"AP: {orc[2]}", $"DP: {orc[3]}", $"AS: {orc[4]}", "   Orc   " };
+                string[] orcStats = { $" HP: {orc[1]}    ", $" AP: {orc[2]}    ", $" DP: {orc[3]}    ", $" AS: {orc[4]}    ", "   Orc   " };
                 return orcStats;
             }
             else if (_monsterType == 2)
             {
-                string[] trollStats = { $"HP: {troll[1]}", $"AP: {troll[2]}", $"DP: {troll[3]}", $"AS: {troll[4]}", "  Troll  " };
+                string[] trollStats = { $" HP: {troll[1]}    ", $" AP: {troll[2]}    ", $" DP: {troll[3]}    ", $" AS: {troll[4]}    ", "  Troll  " };
                 return trollStats;
             }
             else if (_monsterType == 3)
             {
-                string[] goblingStats = { $"HP: {goblin[1]}", $"AP: {goblin[2]}", $"DP: {goblin[3]}", $"AS: {goblin[4]}", " Goblin  " };
+                string[] goblingStats = { $" HP: {goblin[1]}    ", $" AP: {goblin[2]}    ", $" DP: {goblin[3]}    ", $" AS: {goblin[4]}    ", " Goblin  " };
                 return goblingStats;
             }
             else
