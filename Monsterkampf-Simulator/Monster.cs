@@ -60,17 +60,17 @@ namespace Monsterkampf_Simulator
             if (_attacker.type == 1)
             {
                 dmgDelt = _attacker.AP - _defender.DP;
-                dmgDelt += GetCrit(20);
+                dmgDelt += (GetCrit(10)) ? _attacker.AP * 2 : 0;
             }
             else if (_attacker.type == 2)
             {
                 dmgDelt = _attacker.AP - _defender.DP;
-                dmgDelt += GetCrit(0);
+                dmgDelt += (GetCrit(0)) ? _attacker.AP * 2 : 0;
             }
             else if (_attacker.type == 3)
             {
                 dmgDelt = _attacker.AP - _defender.DP;
-                dmgDelt += GetCrit(30);
+                dmgDelt += (GetCrit(20)) ? _attacker.AP * 2 : 0;
             }
             _defender.HP -= dmgDelt;
             if (_defender.HP < 0) _defender.HP = 0;
@@ -78,18 +78,18 @@ namespace Monsterkampf_Simulator
             return attackLog;
         }
 
-        private static int GetCrit(int _criticalChance)
+        private static bool GetCrit(int _criticalChance)
         {
             int crit = rnd.Next(0, 100);
             if (crit < _criticalChance)
             {
                 crited = "criticaly ";
-                return 5;
+                return true;
             }
             else
             {
                 crited = "";
-                return 0;
+                return false;
             }
         }
     }

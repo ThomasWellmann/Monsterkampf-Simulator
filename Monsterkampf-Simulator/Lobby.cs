@@ -167,6 +167,7 @@ namespace Monsterkampf_Simulator
         public static void ResizeWindow(int _width, int _height)
         {
             Console.SetWindowPosition(0, 0);
+            Console.SetBufferSize(_width, 1000);
             Console.SetWindowSize(_width, _height);
         }
     }

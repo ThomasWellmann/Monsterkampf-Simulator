@@ -83,6 +83,7 @@ namespace Monsterkampf_Simulator
             goblin[2] = 20;
             goblin[3] = 0;
             goblin[4] = 10;
+            SetMValues();
         }
 
         private static void MonsterSelection()

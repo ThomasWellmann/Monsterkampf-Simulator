@@ -82,9 +82,10 @@ namespace Monsterkampf_Simulator
                 string[] battleLoopText = { $"Round {roundCount}:", 
                     $"{monsterPlayer[currentPlayer].name} has {attackLog[2]}attacked {monsterPlayer[otherPlayer].name}.",
                     $"{attackLog[0]} damage was done and {monsterPlayer[otherPlayer].name} has now {attackLog[1]} HP."};
-                Lobby.PrintText(battleLoopText[0], MonsterSettings.colorPlayer[currentPlayer], x, y);
-                Lobby.PrintText(battleLoopText[1], Lobby.defaultFColor, x, y + 1);
-                Lobby.PrintText(battleLoopText[2], Lobby.defaultFColor, x, y + 2);
+                for (int i = 0; i < 3; i++)
+                {
+                    Lobby.PrintText(battleLoopText[i], (i == 0) ? MonsterSettings.colorPlayer[currentPlayer] : Lobby.defaultFColor, x, y + i);
+                }
 
                 if (currentPlayer != GetStarter())
                 {
