@@ -8,6 +8,7 @@ namespace Monsterkampf_Simulator
 {
     internal class Simulation
     {
+        #region Variables
         public static Monster[] monsterPlayer = { MonsterSettings.Orc, MonsterSettings.Troll, MonsterSettings.Goblin};
         private static int currentPlayer;
         private static int otherPlayer;
@@ -21,6 +22,7 @@ namespace Monsterkampf_Simulator
         private static ConsoleColor winnerColor = ConsoleColor.Green;
         private static Random rnd = new Random();
         private static bool sameAS;
+        #endregion
         public static void PrintSimulation()
         {
             Lobby.SetColors(false);

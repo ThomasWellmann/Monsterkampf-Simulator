@@ -38,7 +38,7 @@ namespace Monsterkampf_Simulator
         private static ConsoleKeyInfo key;
         public static void PrintCredits()
         {
-            Lobby.SetColors(false);
+            Lobby.SetColors();
             Console.Clear();
 
             for (int i = 0; i < creditsText[0].GetLength(0); i++)

@@ -9,14 +9,17 @@ namespace Monsterkampf_Simulator
 {//█▀▄
     public class Monster
     {
-        public int type { get; set; }
-        public int HP { get; set; }
-        public int AP { get; set; }
-        public int DP { get; set; }
-        public int AS { get; set; }
-        public string name { get; set; }
+        #region
+        public int type;
+        public int HP;
+        public int AP;
+        public int DP;
+        public int AS;
+        public string name;
         private static string crited;
         static Random rnd = new Random();
+        #endregion
+        
 
         private static string[] monsterDrawn = {
             "  ██  ",

@@ -8,6 +8,7 @@ namespace Monsterkampf_Simulator
 {
     internal class MonsterSettings
     {
+        #region Variables
         public static int[] orc = { 1, 200, 20, 5, 1 };
         public static int[] troll = { 2, 175, 15, 10, 2 };
         public static int[] goblin = { 3, 150, 20, 0, 3 };
@@ -48,10 +49,11 @@ namespace Monsterkampf_Simulator
         public static Monster Orc = new Monster(orc[0], orc[1], orc[2], orc[3], orc[4], "Orc");
         public static Monster Troll = new Monster(troll[0], troll[1], troll[2], troll[3], troll[4], "Troll");
         public static Monster Goblin = new Monster(goblin[0], goblin[1], goblin[2], goblin[3], goblin[4], "Goblin");
+        #endregion
 
         public static void PrintMonsterSettings()
         {
-            Lobby.SetColors(false);
+            Lobby.SetColors();
             Console.Clear();
 
             SetDefaultValues();
@@ -114,6 +116,8 @@ namespace Monsterkampf_Simulator
             Simulation.PrintSimulation();
         }
 
+        #region Select your Monster
+
         private static void PrintSelectionText()
         {
             DisplayVS(false);
@@ -155,7 +159,7 @@ namespace Monsterkampf_Simulator
 
         public static void DisplayVS(bool _stats)
         {
-            Lobby.SetColors(false);
+            Lobby.SetColors();
             int VSOffset = 0;
             if (_stats)
             {
@@ -278,7 +282,8 @@ namespace Monsterkampf_Simulator
                 }
             }
         }
-
+        #endregion
+        #region Change Monster values
         private static void GetMValueInput() // Texteingabe für Monster Werten
         {
             string[] values = { "     ", " HP: ", " AP: ", " DP: ", " AS: " };
@@ -389,5 +394,6 @@ namespace Monsterkampf_Simulator
                 return strings;
             }
         }
+        #endregion
     }
 }

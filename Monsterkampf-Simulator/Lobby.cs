@@ -36,7 +36,7 @@ namespace Monsterkampf_Simulator
         private static void PrintLobby()
         {
             ResizeWindow(windowSize[0], windowSize[1]);
-            SetColors(false);
+            SetColors();
             Console.Clear();
             Console.CursorVisible = true;
 
@@ -87,7 +87,7 @@ namespace Monsterkampf_Simulator
 
         private static void PrintUnselected(string _text)
         {
-            SetColors(false);
+            SetColors();
             PrintText(_text, defaultFColor, CenterTextX(_text), CenterTextY(offSet + selected));
         }
 
@@ -138,7 +138,7 @@ namespace Monsterkampf_Simulator
             }
         }
 
-        public static void SetColors(bool _selected)
+        public static void SetColors(bool _selected = false)
         {
             if (_selected)
             {

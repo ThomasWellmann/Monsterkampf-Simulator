@@ -55,7 +55,7 @@ namespace Monsterkampf_Simulator
         private static int offSet = 0;
         public static void PrintHowToPlay()
         {
-            Lobby.SetColors(false);
+            Lobby.SetColors();
             Console.Clear();
 
             for (int i = 0; i < howToPlayText[0].GetLength(0); i++)
