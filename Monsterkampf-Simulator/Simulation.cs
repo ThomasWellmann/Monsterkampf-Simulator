@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace Monsterkampf_Simulator
 {
-    internal class Simulation : Lobby
+    internal class Simulation : Screen
     {
         #region Variables
-        public Monster[] monsterPlayer;
         private int currentPlayer;
         private int otherPlayer;
         private int roundCount = 1;
@@ -20,15 +19,28 @@ namespace Monsterkampf_Simulator
         private int y;
         private ConsoleKeyInfo key;
         private ConsoleColor winnerColor = ConsoleColor.Green;
-        private Random rnd = new Random();
         private bool sameAS;
-        #endregion
-        public void PrintSimulation()
+        private Monster[] chosenMonsters;
+
+        public Random rnd = new Random(DateTime.Now.Millisecond);
+        private void SetValues()
         {
-            monsterPlayer = [lobby.Orc, lobby.Orc, lobby.Orc];
-            x = lobby.CenterTextX("") - 20;
-            y = lobby.CenterTextY(0);
-            lobby.SetColors(false);
+            currentPlayer = GetStarter();
+            cheater = 0;
+            saint = 0;
+            sameAS = false;
+            draw = false;
+        }
+        #endregion
+        public Simulation(Monster[] _chosenMonsters)
+        {
+            chosenMonsters = _chosenMonsters; 
+        }
+        public override Screen Start()
+        {
+            x = CenterTextX("") - 20;
+            y = CenterTextY(0);
+            SetColors(false);
             Console.Clear();
 
             StartSim();
@@ -42,7 +54,7 @@ namespace Monsterkampf_Simulator
             {
                 key = Console.ReadKey(true);
                 if (key.Key == ConsoleKey.Escape)
-                    lobby.Return("Simulation");
+                    return new Lobby();
                 else
                     continue;
             }
@@ -56,25 +68,17 @@ namespace Monsterkampf_Simulator
                 $"{monsterPlayer[GetStarter()].name} has more AS, meaning it will start attacking!",
                 "3...", "2...", "1...", "Fight!"};
 
-            lobby.PrintText(starterText[(sameAS) ? 0 : 1], lobby.defaultFColor, lobby.CenterTextX(starterText[(sameAS) ? 0 : 1]), y);
+            PrintText(starterText[(sameAS) ? 0 : 1], defaultFColor, CenterTextX(starterText[(sameAS) ? 0 : 1]), y);
             Thread.Sleep(1000);
             y++;
             for (int i = 2; i < starterText.GetLength(0); i++)
             {
                 Thread.Sleep(1000);
-                lobby.PrintText(starterText[i], lobby.defaultFColor, lobby.CenterTextX(starterText[i]), y + i - 2);
+                PrintText(starterText[i], defaultFColor, CenterTextX(starterText[i]), y + i - 2);
             }
             y += 5;
         }
 
-        private void SetValues()
-        {
-            currentPlayer = GetStarter();
-            cheater = 0;
-            saint = 0;
-            sameAS = false;
-            draw = false;
-        }
 
         private void BattleLoop()
         {
@@ -92,7 +96,7 @@ namespace Monsterkampf_Simulator
                     $"{attackLog[0]} damage was done and {monsterPlayer[otherPlayer].name} has now {attackLog[1]} HP."};
                 for (int i = 0; i < 3; i++)
                 {
-                    lobby.PrintText(battleLoopText[i], (i == 0) ? monsterSettings.colorPlayer[currentPlayer] : lobby.defaultFColor, x, y + i);
+                    PrintText(battleLoopText[i], (i == 0) ? colorPlayer[currentPlayer] : defaultFColor, x, y + i);
                 }
 
                 if (currentPlayer != GetStarter())
@@ -132,9 +136,9 @@ namespace Monsterkampf_Simulator
             if (cheater != 0)
             {
                 Console.Clear();
-                lobby.PrintText(cheaterText, lobby.titelColor, lobby.CenterTextX(cheaterText), lobby.CenterTextY(1));
+                PrintText(cheaterText, titelColor, CenterTextX(cheaterText), CenterTextY(1));
                 Thread.Sleep(3000);
-                lobby.Return("Simulation");
+                Program.Return("Simulation");
             }
         }
 
@@ -147,19 +151,19 @@ namespace Monsterkampf_Simulator
             Thread.Sleep(500);
             if (!draw)
             {
-                lobby.PrintText(endGameText[0], winnerColor, lobby.CenterTextX(endGameText[0]), y);
+                PrintText(endGameText[0], winnerColor, CenterTextX(endGameText[0]), y);
             } 
             else
             {
-                lobby.PrintText(endGameText[1], lobby.defaultFColor, lobby.CenterTextX(endGameText[1]), y);
+                PrintText(endGameText[1], defaultFColor, CenterTextX(endGameText[1]), y);
             }
             for (int i = 2; i < 4; i++)
             {
                 y++;
                 Thread.Sleep(500);
-                lobby.PrintText(endGameText[i], lobby.defaultFColor, lobby.CenterTextX(endGameText[i]), y);
+                PrintText(endGameText[i], defaultFColor, CenterTextX(endGameText[i]), y);
             }
-            for (int i = 0; i < lobby.windowSize[1] / 2; i++)
+            for (int i = 0; i < windowSize[1] / 2; i++)
             {
                 Console.WriteLine();
                 Thread.Sleep(50);
@@ -198,6 +202,34 @@ namespace Monsterkampf_Simulator
             {
                 currentPlayer = 1;
                 otherPlayer = 2;
+            }
+        }
+        public void DisplayVS(bool _stats)
+        {
+            SetColors();
+            int VSOffset = 0;
+            if (_stats)
+            {
+                VSOffset = 2;
+                for (int i = 1; i < 3; i++)
+                {
+                    offSet = -2;
+                    int _x = (i == 1) ? x[0] - 1 : x[1] - 1;
+                    for (int j = 0; j < 4; j++)
+                    {
+                        PrintText(GetMonsterStats(monsterPlayer[i])[j], defaultFColor, _x, CenterTextY(offSet));
+                        offSet++;
+                    }
+                }
+            }
+            offSet = (!_stats) ? -11 : -9;
+            DisplayPlayer(1, _stats, x[0], CenterTextY(offSet));
+            DisplayPlayer(2, _stats, x[1], CenterTextY(offSet));
+            offSet++;
+            for (int i = 0; i < VSText[1].GetLength(0); i++)
+            {
+                PrintText(VSText[1][i], defaultFColor, CenterTextX(VSText[1][0]), CenterTextY(offSet + VSOffset));
+                offSet++;
             }
         }
     }

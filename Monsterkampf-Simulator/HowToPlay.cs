@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Monsterkampf_Simulator
 {
-    internal class HowToPlay : Lobby
+    internal class HowToPlay : Screen
     {
         #region Variables
         private string[][] howToPlayText;
@@ -16,46 +16,7 @@ namespace Monsterkampf_Simulator
         private int y3;
         private int y4;
         private ConsoleKeyInfo key;
-        #endregion
-
         private int offSet = 0;
-        public void PrintHowToPlay()
-        {
-            SetValues();
-            lobby.SetColors();
-            Console.Clear();
-
-            for (int i = 0; i < howToPlayText[0].GetLength(0); i++)
-            {
-                lobby.PrintText(howToPlayText[0][i], lobby.titelColor, lobby.CenterTextX(howToPlayText[0][0]), y[0] + i);
-            }
-            for (int i = 1; i < 5; i++)
-            {
-                int _x = 0;
-                int _y = 0;
-                if (i == 1) { _x = x[0]; _y = y2; }
-                else if (i == 2) { _x = x[0]; _y = y3; }
-                else if (i == 3) { _x = x[1]; _y = y2; }
-                else if (i == 4) { _x = x[1]; _y = y3; }
-                offSet = 0;
-                for (int j = 0; j < howToPlayText[i].GetLength(0); j++)
-                {
-                    lobby.PrintText(howToPlayText[i][j], lobby.defaultFColor, _x, _y + offSet);
-                    offSet += 2;
-                }
-            }
-            lobby.PrintText(howToPlayText[5][0], lobby.defaultFColor, lobby.CenterTextX(howToPlayText[5][0]), y4);
-
-            while (true)
-            {
-                key = Console.ReadKey(true);
-                if (key.Key == ConsoleKey.Escape)
-                    lobby.Return("Lobby");
-                else
-                    continue;
-            }
-        }
-
         private void SetValues()
         {
             howToPlayText = [
@@ -95,12 +56,51 @@ namespace Monsterkampf_Simulator
             ],[//z5 Hinweis unten
                 "You can press \"ESC\" at any time to get to the previous page.",//0
             ]];
-            x[0] = lobby.CenterTextX("") - howToPlayText[2][1].Length - 3; //[2][1] ist der längste Text links
-            x[1] = lobby.CenterTextX("") + 3;
-            y[0] = lobby.CenterTextY(-(35 / 2));//y-Wert des Titels (35 ist wie viele Zeilen es in diese Seite gibt + Zeilenabstände)
+            x[0] = CenterTextX("") - howToPlayText[2][1].Length - 3; //[2][1] ist der längste Text links
+            x[1] = CenterTextX("") + 3;
+            y[0] = CenterTextY(-(35 / 2));//y-Wert des Titels (35 ist wie viele Zeilen es in diese Seite gibt + Zeilenabstände)
             y[1] = y[0] + howToPlayText[0].GetLength(0) + 2;//1. y-Wert des Textes
             y[2] = y[1] + howToPlayText[3].GetLength(0) * 2 + 2;//2. y-Wert des Textes
             y[3] = y[2] + howToPlayText[2].GetLength(0) * 2 + 1;//y-Wert des Hinweises unten
         }
+        #endregion
+
+        public override Screen Start()
+        {
+            SetValues();
+            SetColors();
+            Console.Clear();
+
+            for (int i = 0; i < howToPlayText[0].GetLength(0); i++)
+            {
+                PrintText(howToPlayText[0][i], titelColor, CenterTextX(howToPlayText[0][0]), y[0] + i);
+            }
+            for (int i = 1; i < 5; i++)
+            {
+                int _x = 0;
+                int _y = 0;
+                if (i == 1) { _x = x[0]; _y = y2; }
+                else if (i == 2) { _x = x[0]; _y = y3; }
+                else if (i == 3) { _x = x[1]; _y = y2; }
+                else if (i == 4) { _x = x[1]; _y = y3; }
+                offSet = 0;
+                for (int j = 0; j < howToPlayText[i].GetLength(0); j++)
+                {
+                    PrintText(howToPlayText[i][j], defaultFColor, _x, _y + offSet);
+                    offSet += 2;
+                }
+            }
+            PrintText(howToPlayText[5][0], defaultFColor, CenterTextX(howToPlayText[5][0]), y4);
+
+            while (true)
+            {
+                key = Console.ReadKey(true);
+                if (key.Key == ConsoleKey.Escape)
+                    return new Lobby();
+                else
+                    continue;
+            };
+        }
+
     }
 }

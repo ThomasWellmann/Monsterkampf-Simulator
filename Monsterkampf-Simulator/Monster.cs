@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace Monsterkampf_Simulator
 {//█▀▄
-    public class Monster
+    public class Monster 
     {
         #region Variables
-        Lobby lobby;
         public int type;
         public int HP;
         public int AP;
@@ -18,8 +17,9 @@ namespace Monsterkampf_Simulator
         public int AS;
         public string name;
         private int crited;
+        public Random rnd = new Random(DateTime.Now.Millisecond);
         #endregion
-        
+
         public Monster(int _type, int _hp, int _ap, int _dp, int _as, string _name)
         {
             type = _type;
@@ -56,7 +56,7 @@ namespace Monsterkampf_Simulator
 
         private bool GetCrit(int _criticalChance)
         {
-            int crit = lobby.rnd.Next(0, 100);
+            int crit = rnd.Next(0, 100);
             if (crit < _criticalChance)
             {
                 crited = 1;
@@ -68,5 +68,7 @@ namespace Monsterkampf_Simulator
                 return false;
             }
         }
+
+
     }
 }
