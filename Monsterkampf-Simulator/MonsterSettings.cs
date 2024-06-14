@@ -23,8 +23,6 @@ namespace Monsterkampf_Simulator
         public Monster Orc;
         public Monster Troll;
         public Monster Goblin;
-        #endregion
-
         private void SetValues()
         {
             x[0] = CenterTextX(VSText[0][0] + VSText[0][1] + VSText[1][0] + "    ");
@@ -68,6 +66,8 @@ namespace Monsterkampf_Simulator
                     " (_) "]];//5
             SetMValues();
         }
+        #endregion
+
 
         public override Screen Start()
         {
