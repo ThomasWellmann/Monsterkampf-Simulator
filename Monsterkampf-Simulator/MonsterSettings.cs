@@ -40,7 +40,7 @@ namespace Monsterkampf_Simulator
                 "█▄██▄█",
                 " █  █ " ];
             selectionText = [ "",//0
-                $"Choose your Monster by pressing the respective monster class number in your keyboard.",//1
+                $"Choose your Monster by pressing the respective Monster class number in your keyboard.",//1
                 "You can not choose the same moster for both players",//2
                 $"(1): Orc       (2): Troll     (3): Goblin",//3
                 $"HP: 200        HP: 175        HP: 150",//4
@@ -140,7 +140,7 @@ namespace Monsterkampf_Simulator
         private void PrintMChangesText()
         {
             string[] mChangesText = { "If you want to play as it is, press \"SpaceBar\" to start the simulation.",
-            "But if you first want to change your monster's values, press \"Enter\" to enter one of your liking.",
+            "But if you first want to change your Monster's values, press \"Enter\" to enter one of your liking.",
             "Note: Do not choose a DP grater than the oponent's AP. More about that in the 'How To Play' menu.",
             "Press \"ESC\" to exit the value input." };
             Console.Clear();
