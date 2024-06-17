@@ -63,7 +63,7 @@ namespace Monsterkampf_Simulator
         private void StartSim()
         {
             SetValues();
-            MonsterSettings.DisplayVS(false);
+            MonsterSettings.DisplayVS();
             string[] starterText = { $"Both Monsters have the same AS, meaning {chosenMonsters[GetStarter()].name}, which was chosen randomly, will start attacking!",
                 $"{chosenMonsters[GetStarter()].name} has more AS, meaning it will start attacking!",
                 "3...", "2...", "1...", "Fight!"};

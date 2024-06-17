@@ -107,7 +107,7 @@ namespace Monsterkampf_Simulator
 
         private void PrintSelectionText()
         {
-            DisplayVS(false);
+            DisplayVS();
 
             int offSet = -1;
             PrintText($"Player {currentPlayer}:", defaultFColor, CenterTextX($"Player {currentPlayer}:"), CenterTextY(offSet - 2));
@@ -144,7 +144,7 @@ namespace Monsterkampf_Simulator
             }
         }
 
-        public static void DisplayVS(bool _stats)
+        public static void DisplayVS(bool _stats = false)
         {
             SetColors();
             int VSOffset = 0;
@@ -193,7 +193,7 @@ namespace Monsterkampf_Simulator
                     }
                     else
                         continue;
-                    
+
                     break;
                 }
                 else if (key.Key == ConsoleKey.D2)
