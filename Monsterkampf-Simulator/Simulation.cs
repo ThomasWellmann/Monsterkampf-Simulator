@@ -6,26 +6,41 @@ using System.Threading.Tasks;
 
 namespace Monsterkampf_Simulator
 {
-    internal class Simulation
+    internal class Simulation : Screen
     {
         #region Variables
-        public static Monster[] monsterPlayer = { MonsterSettings.Orc, MonsterSettings.Troll, MonsterSettings.Goblin};
-        private static int currentPlayer;
-        private static int otherPlayer;
-        private static int roundCount = 1;
-        private static int cheater = 0;
-        private static int saint = 0;
-        private static bool draw = false;
-        private static int x = Lobby.CenterTextX("") - 20;
-        private static int y = Lobby.CenterTextY(0);
-        private static ConsoleKeyInfo key;
-        private static ConsoleColor winnerColor = ConsoleColor.Green;
-        private static Random rnd = new Random();
-        private static bool sameAS;
-        #endregion
-        public static void PrintSimulation()
+        private int currentPlayer;
+        private int otherPlayer;
+        private int roundCount = 1;
+        private int cheater = 0;
+        private int saint = 0;
+        private bool draw = false;
+        private int x;
+        private int y;
+        private ConsoleKeyInfo key;
+        private ConsoleColor winnerColor = ConsoleColor.Green;
+        private bool sameAS;
+        private Monster[] chosenMonsters;
+
+        public Random rnd = new Random(DateTime.Now.Millisecond);
+        private void SetValues()
         {
-            Lobby.SetColors(false);
+            currentPlayer = GetStarter();
+            cheater = 0;
+            saint = 0;
+            sameAS = false;
+            draw = false;
+        }
+        #endregion
+        public Simulation(Monster[] _chosenMonsters)
+        {
+            chosenMonsters = _chosenMonsters; 
+        }
+        public override Screen Start()
+        {
+            x = CenterTextX("") - 20;
+            y = CenterTextY(0);
+            SetColors(false);
             Console.Clear();
 
             StartSim();
@@ -39,36 +54,33 @@ namespace Monsterkampf_Simulator
             {
                 key = Console.ReadKey(true);
                 if (key.Key == ConsoleKey.Escape)
-                    Lobby.GoBack("Simulation");
+                    return new Lobby();
                 else
                     continue;
             }
         }
 
-        private static void StartSim()
+        private void StartSim()
         {
-            cheater = 0;
-            saint = 0;
-            sameAS = false;
-            draw = false;
+            SetValues();
             MonsterSettings.DisplayVS(false);
-            currentPlayer = GetStarter();
-            string[] starterText = { $"Both monsters have the same AS, meaning {monsterPlayer[GetStarter()].name}, which was chosen randomly, will start attacking!",
-                $"{monsterPlayer[GetStarter()].name} has more AS, meaning it will start attacking!",
+            string[] starterText = { $"Both Monsters have the same AS, meaning {chosenMonsters[GetStarter()].name}, which was chosen randomly, will start attacking!",
+                $"{chosenMonsters[GetStarter()].name} has more AS, meaning it will start attacking!",
                 "3...", "2...", "1...", "Fight!"};
 
-            Lobby.PrintText(starterText[(sameAS) ? 0 : 1], Lobby.defaultFColor, Lobby.CenterTextX(starterText[(sameAS) ? 0 : 1]), y);
+            PrintText(starterText[(sameAS) ? 0 : 1], defaultFColor, CenterTextX(starterText[(sameAS) ? 0 : 1]), y);
             Thread.Sleep(1000);
             y++;
             for (int i = 2; i < starterText.GetLength(0); i++)
             {
                 Thread.Sleep(1000);
-                Lobby.PrintText(starterText[i], Lobby.defaultFColor, Lobby.CenterTextX(starterText[i]), y + i - 2);
+                PrintText(starterText[i], defaultFColor, CenterTextX(starterText[i]), y + i - 2);
             }
             y += 5;
         }
 
-        private static void BattleLoop()
+
+        private void BattleLoop()
         {
             while (true)
             {
@@ -78,13 +90,13 @@ namespace Monsterkampf_Simulator
                     break;
                 }
 
-                string[] attackLog = Monster.Attack(monsterPlayer[currentPlayer], monsterPlayer[otherPlayer]);
+                int[] attackLog = chosenMonsters[currentPlayer].Attack(chosenMonsters[otherPlayer]);
                 string[] battleLoopText = { $"Round {roundCount}:", 
-                    $"{monsterPlayer[currentPlayer].name} has {attackLog[2]}attacked {monsterPlayer[otherPlayer].name}.",
-                    $"{attackLog[0]} damage was done and {monsterPlayer[otherPlayer].name} has now {attackLog[1]} HP."};
+                    $"{chosenMonsters[currentPlayer].name} has {((attackLog[2] == 0) ? "" : "criticaly " )}attacked {chosenMonsters[otherPlayer].name}.",
+                    $"{attackLog[0]} damage was done and {chosenMonsters[otherPlayer].name} has now {attackLog[1]} HP."};
                 for (int i = 0; i < 3; i++)
                 {
-                    Lobby.PrintText(battleLoopText[i], (i == 0) ? MonsterSettings.colorPlayer[currentPlayer] : Lobby.defaultFColor, x, y + i);
+                    PrintText(battleLoopText[i], (i == 0) ? colorPlayer[currentPlayer] : defaultFColor, x, y + i);
                 }
 
                 if (currentPlayer != GetStarter())
@@ -99,7 +111,7 @@ namespace Monsterkampf_Simulator
                     Thread.Sleep(100);
                 }
 
-                if (attackLog[1] == "0")
+                if (attackLog[1] == 0)
                 {
                     break;
                 }
@@ -108,64 +120,65 @@ namespace Monsterkampf_Simulator
             }
         }
 
-        private static void CheckIfCheating()
+        private Screen CheckIfCheating()
         {
-            if (monsterPlayer[1].DP > monsterPlayer[2].AP)
+            if (chosenMonsters[1].DP > chosenMonsters[2].AP)
             {
                 cheater = 1;
                 saint = 2;
             }
-            else if (monsterPlayer[2].DP > monsterPlayer[1].AP)
+            else if (chosenMonsters[2].DP > chosenMonsters[1].AP)
             {
                 cheater = 2;
                 saint = 1;
             }
-            string cheaterText = $"{monsterPlayer[cheater].name} cheated when choosing a grater DP than it's opponent AP. {monsterPlayer[saint].name} has won!";
+            string cheaterText = $"{chosenMonsters[cheater].name} cheated when choosing a grater DP than it's opponent AP. {chosenMonsters[saint].name} has won!";
             if (cheater != 0)
             {
                 Console.Clear();
-                Lobby.PrintText(cheaterText, Lobby.titelColor, Lobby.CenterTextX(cheaterText), Lobby.CenterTextY(1));
+                PrintText(cheaterText, titelColor, CenterTextX(cheaterText), CenterTextY(1));
                 Thread.Sleep(3000);
-                Lobby.GoBack("Simulation");
+                return new Lobby();
             }
+            return null;
         }
 
-        private static void PrintWinner()
+        private void PrintWinner()
         {
-            string[] endGameText = { $"{monsterPlayer[currentPlayer].name} has won the battle and is walking home victorious!",
+            string[] endGameText = { $"{chosenMonsters[currentPlayer].name} has won the battle and is walking home victorious!",
             $"The round cout is over and still, no one hit the ground yet. It's a draw!",
             $"Since the battle is over, there is nothing more here be seen.",
             $"You shall press \"ESC\" to return to the main menu."};
             Thread.Sleep(500);
             if (!draw)
             {
-                Lobby.PrintText(endGameText[0], winnerColor, Lobby.CenterTextX(endGameText[0]), y);
+                PrintText(endGameText[0], winnerColor, CenterTextX(endGameText[0]), y);
             } 
             else
             {
-                Lobby.PrintText(endGameText[1], Lobby.defaultFColor, Lobby.CenterTextX(endGameText[1]), y);
+                PrintText(endGameText[1], defaultFColor, CenterTextX(endGameText[1]), y);
             }
             for (int i = 2; i < 4; i++)
             {
                 y++;
                 Thread.Sleep(500);
-                Lobby.PrintText(endGameText[i], Lobby.defaultFColor, Lobby.CenterTextX(endGameText[i]), y);
+                PrintText(endGameText[i], defaultFColor, CenterTextX(endGameText[i]), y);
             }
-            for (int i = 0; i < Lobby.windowSize[1] / 2; i++)
+            for (int i = 0; i < windowSize[1] / 2; i++)
             {
                 Console.WriteLine();
                 Thread.Sleep(50);
             }
         }
 
-        private static int GetStarter()
+        private int GetStarter()
         {
-            if (monsterPlayer[1].AS > monsterPlayer[2].AS)
+            if (chosenMonsters[1].AS > chosenMonsters[2].AS)
             {
                 otherPlayer = 2;
                 return 1;
             }
-            else if (monsterPlayer[2].AS > monsterPlayer[1].AS)
+            else if (chosenMonsters[2].AS > chosenMonsters[1].AS)
             {
                 otherPlayer = 1;
                 return 2;
@@ -179,7 +192,7 @@ namespace Monsterkampf_Simulator
             }
         }
 
-        private static void ChangePlayers()
+        private void ChangePlayers()
         {
             if (currentPlayer == 1)
             {

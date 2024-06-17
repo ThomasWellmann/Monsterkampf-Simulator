@@ -9,25 +9,24 @@ namespace Monsterkampf_Simulator
 {//█▀▄
     public class Monster
     {
-        #region
+        #region Variables
         public int type;
         public int HP;
         public int AP;
         public int DP;
         public int AS;
         public string name;
-        private static string crited;
-        static Random rnd = new Random();
+        private int crited;
+        public Random rnd = new Random(DateTime.Now.Millisecond);
+        private string[] monsterDrawn = [
+                "  ██  ",
+                "█▀██▀█",
+                "█▄██▄█",
+                " █  █ " ];
+        private ConsoleColor monsterColor;
         #endregion
-        
 
-        private static string[] monsterDrawn = {
-            "  ██  ",
-            "█▀██▀█",
-            "█▄██▄█",
-            " █  █ " };
-
-        public Monster(int _type, int _hp, int _ap, int _dp, int _as, string _name)
+        public Monster(int _type, int _hp, int _ap, int _dp, int _as, string _name, ConsoleColor _color)
         {
             type = _type;
             HP = _hp;
@@ -35,61 +34,59 @@ namespace Monsterkampf_Simulator
             DP = _dp;
             AS = _as;
             name = _name;
+            monsterColor = _color;
         }
 
-        public static void DrawMonster(int _monster, int _x, int _y)
-        {
-            ConsoleColor monsterColor = Lobby.defaultBColor;
-
-            if (_monster == 1)
-                monsterColor = ConsoleColor.DarkGray;
-            else if (_monster == 2)
-                monsterColor = ConsoleColor.DarkGreen;
-            else if (_monster == 3)
-                monsterColor = ConsoleColor.DarkYellow;
-
-            for (int i = 0; i < 4; i++)
-            {
-                Lobby.PrintText(monsterDrawn[i], monsterColor, _x, _y + i);
-            }
-        }
-
-        public static string[] Attack(Monster _attacker, Monster _defender)
+        public int[] Attack(Monster _defender)
         {
             int dmgDelt = 0;
-            if (_attacker.type == 1)
+            if (type == 1)
             {
-                dmgDelt = _attacker.AP - _defender.DP;
-                dmgDelt += (GetCrit(10)) ? _attacker.AP * 2 : 0;
+                dmgDelt = AP - _defender.DP;
+                dmgDelt += (GetCrit(10)) ? AP * 2 : 0;
             }
-            else if (_attacker.type == 2)
+            else if (type == 2)
             {
-                dmgDelt = _attacker.AP - _defender.DP;
-                dmgDelt += (GetCrit(0)) ? _attacker.AP * 2 : 0;
+                dmgDelt = AP - _defender.DP;
+                dmgDelt += (GetCrit(0)) ? AP * 2 : 0;
             }
-            else if (_attacker.type == 3)
+            else if (type == 3)
             {
-                dmgDelt = _attacker.AP - _defender.DP;
-                dmgDelt += (GetCrit(20)) ? _attacker.AP * 2 : 0;
+                dmgDelt = AP - _defender.DP;
+                dmgDelt += (GetCrit(20)) ? AP * 2 : 0;
             }
             _defender.HP -= dmgDelt;
             if (_defender.HP < 0) _defender.HP = 0;
-            string[] attackLog = {$"{dmgDelt}", $"{_defender.HP}", crited};
+            int[] attackLog = { dmgDelt, _defender.HP, crited };
             return attackLog;
         }
 
-        private static bool GetCrit(int _criticalChance)
+        private bool GetCrit(int _criticalChance)
         {
             int crit = rnd.Next(0, 100);
             if (crit < _criticalChance)
             {
-                crited = "criticaly ";
+                crited = 1;
                 return true;
             }
             else
             {
-                crited = "";
+                crited = 0;
                 return false;
+            }
+        }
+
+        public string[] GetMonsterStats()
+        {
+            string[] stats = { $" HP: {HP}    ", $" AP: {AP}    ", $" DP: {DP}    ", $" AS: {AS}    ", $" {name}" };
+            return stats;
+        }
+
+        public void DrawMonster(int _x, int _y)
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                Screen.PrintText(monsterDrawn[i], monsterColor, _x, _y + i);
             }
         }
     }
