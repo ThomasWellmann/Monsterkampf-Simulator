@@ -18,7 +18,7 @@ namespace Monsterkampf_Simulator
 
         public abstract Screen Start();
 
-        protected void PrintText(string _toPrint, ConsoleColor _color, int _x, int _y)
+        public static void PrintText(string _toPrint, ConsoleColor _color, int _x, int _y)
         {
             ConsoleColor currentTextColor = Console.ForegroundColor;
             Console.ForegroundColor = _color;
@@ -27,7 +27,7 @@ namespace Monsterkampf_Simulator
             Console.ForegroundColor = currentTextColor;
         }
 
-        protected void SetColors(bool _selected = false)
+        protected static void SetColors(bool _selected = false)
         {
             if (_selected)
             {
@@ -41,16 +41,16 @@ namespace Monsterkampf_Simulator
             }
         }
 
-        protected int CenterTextX(string _text)
+        protected static int CenterTextX(string _text = "")
         {
             return windowSize[0] / 2 - _text.Length / 2;
         }
-        protected int CenterTextY(int _offSet)
+        protected static int CenterTextY(int _offSet = 0)
         {
             return windowSize[1] / 2 + _offSet;
         }
 
-        protected void DrawMiddleLine()
+        protected static void DrawMiddleLine()
         {
             for (int y = 0; y < windowSize[1]; y++)
             {

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Monsterkampf_Simulator
 {//█▀▄
-    public class Monster 
+    public class Monster
     {
         #region Variables
         public int type;
@@ -18,9 +18,15 @@ namespace Monsterkampf_Simulator
         public string name;
         private int crited;
         public Random rnd = new Random(DateTime.Now.Millisecond);
+        private string[] monsterDrawn = [
+                "  ██  ",
+                "█▀██▀█",
+                "█▄██▄█",
+                " █  █ " ];
+        private ConsoleColor monsterColor;
         #endregion
 
-        public Monster(int _type, int _hp, int _ap, int _dp, int _as, string _name)
+        public Monster(int _type, int _hp, int _ap, int _dp, int _as, string _name, ConsoleColor _color)
         {
             type = _type;
             HP = _hp;
@@ -28,6 +34,7 @@ namespace Monsterkampf_Simulator
             DP = _dp;
             AS = _as;
             name = _name;
+            monsterColor = _color;
         }
 
         public int[] Attack(Monster _defender)
@@ -50,7 +57,7 @@ namespace Monsterkampf_Simulator
             }
             _defender.HP -= dmgDelt;
             if (_defender.HP < 0) _defender.HP = 0;
-            int[] attackLog = {dmgDelt, _defender.HP, crited};
+            int[] attackLog = { dmgDelt, _defender.HP, crited };
             return attackLog;
         }
 
@@ -69,6 +76,18 @@ namespace Monsterkampf_Simulator
             }
         }
 
+        public string[] GetMonsterStats()
+        {
+            string[] stats = { $" HP: {HP}    ", $" AP: {AP}    ", $" DP: {DP}    ", $" AS: {AS}    ", $" {name}" };
+            return stats;
+        }
 
+        public void DrawMonster(int _x, int _y)
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                Screen.PrintText(monsterDrawn[i], monsterColor, _x, _y + i);
+            }
+        }
     }
 }

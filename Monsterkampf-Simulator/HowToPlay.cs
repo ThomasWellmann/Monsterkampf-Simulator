@@ -10,11 +10,8 @@ namespace Monsterkampf_Simulator
     {
         #region Variables
         private string[][] howToPlayText;
-        private int[] x;
-        private int[] y;
-        private int y2;
-        private int y3;
-        private int y4;
+        private int[] x = new int[2];
+        private int[] y = new int[4];
         private ConsoleKeyInfo key;
         private int offSet = 0;
         private void SetValues()
@@ -56,8 +53,8 @@ namespace Monsterkampf_Simulator
             ],[//z5 Hinweis unten
                 "You can press \"ESC\" at any time to get to the previous page.",//0
             ]];
-            x[0] = CenterTextX("") - howToPlayText[2][1].Length - 3; //[2][1] ist der längste Text links
-            x[1] = CenterTextX("") + 3;
+            x[0] = CenterTextX() - howToPlayText[2][1].Length - 3; //[2][1] ist der längste Text links
+            x[1] = CenterTextX() + 3;
             y[0] = CenterTextY(-(35 / 2));//y-Wert des Titels (35 ist wie viele Zeilen es in diese Seite gibt + Zeilenabstände)
             y[1] = y[0] + howToPlayText[0].GetLength(0) + 2;//1. y-Wert des Textes
             y[2] = y[1] + howToPlayText[3].GetLength(0) * 2 + 2;//2. y-Wert des Textes
@@ -79,10 +76,10 @@ namespace Monsterkampf_Simulator
             {
                 int _x = 0;
                 int _y = 0;
-                if (i == 1) { _x = x[0]; _y = y2; }
-                else if (i == 2) { _x = x[0]; _y = y3; }
-                else if (i == 3) { _x = x[1]; _y = y2; }
-                else if (i == 4) { _x = x[1]; _y = y3; }
+                if (i == 1) { _x = x[0]; _y = y[1]; }
+                else if (i == 2) { _x = x[0]; _y = y[2]; }
+                else if (i == 3) { _x = x[1]; _y = y[1]; }
+                else if (i == 4) { _x = x[1]; _y = y[2]; }
                 offSet = 0;
                 for (int j = 0; j < howToPlayText[i].GetLength(0); j++)
                 {
@@ -90,7 +87,7 @@ namespace Monsterkampf_Simulator
                     offSet += 2;
                 }
             }
-            PrintText(howToPlayText[5][0], defaultFColor, CenterTextX(howToPlayText[5][0]), y4);
+            PrintText(howToPlayText[5][0], defaultFColor, CenterTextX(howToPlayText[5][0]), y[3]);
 
             while (true)
             {

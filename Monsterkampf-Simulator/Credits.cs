@@ -12,11 +12,11 @@ namespace Monsterkampf_Simulator
         #region Variables
         private static string n;
         private static string[][] creditsText;
-        private int[] x;
-        private int[] y;
+        private int[] x = new int[2];
+        private int[] y = new int[2];
         private void SetValues()
         {
-            n = "Yannick           ";
+            n = "Yannick Funk      ";
             creditsText = [
             [//z0
                 " ____ ____  _____ ____  _ _____ ____ ",//1
