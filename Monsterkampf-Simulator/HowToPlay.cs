@@ -26,8 +26,8 @@ namespace Monsterkampf_Simulator
             ],[//z1 links oben
                 "Choose your Monster:",//0
                 "▄ Press \"1\", \"2\" or \"3\" in your keyboard to select your Monster.",//1
-                "▄ You can'i play as the same monster as your opponent.",//2
-                "▄ You will be able to personalyze your Monster's values once you select one."//3
+                "▄ You can't play as the same monster as your opponent.",//2
+                "▄ You will be able to personalize your Monster's values once you select one."//3
             ],[//z2 links unten
                 "Changing it's values:",//0
                 "▄ Press \"Enter\" to enter the value configuration or \"SpaceBar\" to start the simulation.",//1
@@ -40,16 +40,17 @@ namespace Monsterkampf_Simulator
                 "The Monsters:" ,//0
                 "▄ Orc: Most health and damage, but low defense and attacks very slowly.",//1
                 "▄ Troll: Middle ground with solid stats, but no critical chance.",//2
-                "▄ Goblin: High critical chanse and damage over all, but very squishy.",//3
+                "▄ Goblin: High critical chance and damage overall, but very squishy.",//3
                 "▄ On critical hit you do twice your damage. You can't change a Monster's critical chance.",//4
                 "▄ New Monsters coming soon!"//5
             ],[//z4 rechts ulten
                 "The simulation",//0
                 "▄ The Monster with the most AS will attack first, but if they have the same, it will be random.",//1
-                "▄ Once you press start, there is no coming back until one get's defeated (or 20 rounds has passed).",//2
-                "▄ There is a detailed log of the fight as it happens.",//3
-                "▄ The winner will be congratulated at the end of the fight.",//4
-                "▄ If a cheater is found, he will lose the fight instantly."//5
+                "▄ Once you press start, there is no coming back until one gets defeated (or 20 rounds has passed).",//2
+                "▄ You can speed up the battle by pressing \"SpaceBar\".",//3
+                "▄ There is a detailed log of the fight as it happens.",//4
+                "▄ The winner will be congratulated at the end of the fight.",//5
+                "▄ If a cheater is found, he will lose the fight instantly."//6
             ],[//z5 Hinweis unten
                 "You can press \"ESC\" at any time to get to the previous page.",//0
             ]];

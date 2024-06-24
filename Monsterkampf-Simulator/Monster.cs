@@ -26,15 +26,15 @@ namespace Monsterkampf_Simulator
         private ConsoleColor monsterColor;
         #endregion
 
-        public Monster(int _type, int _hp, int _ap, int _dp, int _as, string _name, ConsoleColor _color)
+        public Monster(string _name = "null", ConsoleColor _color = default, int _type = 0, int _hp = 0, int _ap = 0, int _dp = 0, int _as = 0)
         {
+            name = _name;
+            monsterColor = _color;
             type = _type;
             HP = _hp;
             AP = _ap;
             DP = _dp;
             AS = _as;
-            name = _name;
-            monsterColor = _color;
         }
 
         public int[] Attack(Monster _defender)

@@ -16,15 +16,15 @@ namespace Monsterkampf_Simulator
         private static string[] selectionText = new string[8];
         public static string[][] VSText = new string[3][];
         public static int[] x = new int[2];
-        private static Monster[] monsterPlayer = new Monster[3];
-        public Monster Orc = new Monster(orc[0], orc[1], orc[2], orc[3], orc[4], "Orc", ConsoleColor.DarkGreen);
-        public Monster Troll = new Monster(troll[0], troll[1], troll[2], troll[3], troll[4], "Troll", ConsoleColor.DarkYellow);
-        public Monster Goblin = new Monster(goblin[0], goblin[1], goblin[2], goblin[3], goblin[4], "Goblin", ConsoleColor.DarkMagenta);
+        public static Monster[] monsterPlayer = new Monster[3];
+        public Monster _null = new Monster();
+        public Monster Orc = new Monster("Orc", ConsoleColor.DarkGreen);
+        public Monster Troll = new Monster("Troll", ConsoleColor.DarkYellow);
+        public Monster Goblin = new Monster("Goblin", ConsoleColor.DarkMagenta);
         private void SetValues()
         {
-            monsterPlayer = [Orc, Troll, Goblin];
+            monsterPlayer = [_null, _null, _null];
             currentPlayer = 1;
-            VSText[0] = [ "Player 1:", "Player 2:" ];
             orc = [1, 200, 20, 5, 1];
             troll = [2, 175, 15, 10, 2];
             goblin = [3, 150, 20, 0, 3];
@@ -116,8 +116,9 @@ namespace Monsterkampf_Simulator
                 PrintText(selectionText[i], defaultFColor, CenterTextX(selectionText[i]), CenterTextY(offSet));
                 offSet += 2;
             }
-            for (int i = 0; i < 3; i++)
-                monsterPlayer[i].DrawMonster(CenterTextX(selectionText[3]) + 3 + i * 15, CenterTextY(offSet));
+            Orc.DrawMonster(CenterTextX(selectionText[3]) + 3, CenterTextY(offSet));
+            Troll.DrawMonster(CenterTextX(selectionText[3]) + 3 + 15, CenterTextY(offSet));
+            Goblin.DrawMonster(CenterTextX(selectionText[3]) + 3 + 30, CenterTextY(offSet));
 
             offSet = 10;
             for (int i = 4; i < 8; i++)
@@ -183,12 +184,12 @@ namespace Monsterkampf_Simulator
                 {
                     if (currentPlayer == 1)
                     {
-                        Orc = new Monster(orc[0], orc[1], orc[2], orc[3], orc[4], "Orc", ConsoleColor.DarkGreen);
+                        Orc = new Monster("Orc", ConsoleColor.DarkGreen, orc[0], orc[1], orc[2], orc[3], orc[4]);
                         monsterPlayer[1] = Orc;
                     }
                     else if (currentPlayer == 2 && monsterPlayer[1] != Orc)
                     {
-                        Orc = new Monster(orc[0], orc[1], orc[2], orc[3], orc[4], "Orc", ConsoleColor.DarkGreen);
+                        Orc = new Monster("Orc", ConsoleColor.DarkGreen, orc[0], orc[1], orc[2], orc[3], orc[4]);
                         monsterPlayer[2] = Orc;
                     }
                     else
@@ -200,12 +201,12 @@ namespace Monsterkampf_Simulator
                 {
                     if (currentPlayer == 1)
                     {
-                        Troll = new Monster(troll[0], troll[1], troll[2], troll[3], troll[4], "Troll", ConsoleColor.DarkYellow);
+                        Troll = new Monster("Troll", ConsoleColor.DarkYellow, troll[0], troll[1], troll[2], troll[3], troll[4]);
                         monsterPlayer[1] = Troll;
                     }
                     else if (currentPlayer == 2 && monsterPlayer[1] != Troll)
                     {
-                        Troll = new Monster(troll[0], troll[1], troll[2], troll[3], troll[4], "Troll", ConsoleColor.DarkYellow);
+                        Troll = new Monster("Troll", ConsoleColor.DarkYellow, troll[0], troll[1], troll[2], troll[3], troll[4]);
                         monsterPlayer[2] = Troll;
                     }
                     else
@@ -217,17 +218,16 @@ namespace Monsterkampf_Simulator
                 {
                     if (currentPlayer == 1)
                     {
-                        Goblin = new Monster(goblin[0], goblin[1], goblin[2], goblin[3], goblin[4], "Goblin", ConsoleColor.DarkMagenta);
+                        Goblin = new Monster("Goblin", ConsoleColor.DarkMagenta, goblin[0], goblin[1], goblin[2], goblin[3], goblin[4]);
                         monsterPlayer[1] = Goblin;
                     }
                     else if (currentPlayer == 2 && monsterPlayer[1] != Goblin)
                     {
-                        Goblin = new Monster(goblin[0], goblin[1], goblin[2], goblin[3], goblin[4], "Goblin", ConsoleColor.DarkMagenta);
+                        Goblin = new Monster("Goblin", ConsoleColor.DarkMagenta, goblin[0], goblin[1], goblin[2], goblin[3], goblin[4]);
                         monsterPlayer[2] = Goblin;
                     }
                     else
                         continue;
-                    
                     break;
                 }
                 else if (key.Key == ConsoleKey.Escape)

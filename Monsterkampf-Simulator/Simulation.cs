@@ -14,17 +14,19 @@ namespace Monsterkampf_Simulator
         private int roundCount = 1;
         private int cheater = 0;
         private int saint = 0;
+        private static int printSpeed;
         private bool draw = false;
         private int x;
         private int y;
-        private ConsoleKeyInfo key;
         private ConsoleColor winnerColor = ConsoleColor.Green;
         private bool sameAS;
         private Monster[] chosenMonsters;
 
+
         public Random rnd = new Random(DateTime.Now.Millisecond);
         private void SetValues()
         {
+            printSpeed = 100;
             currentPlayer = GetStarter();
             cheater = 0;
             saint = 0;
@@ -38,6 +40,8 @@ namespace Monsterkampf_Simulator
         }
         public override Screen Start()
         {
+            Thread thread = new Thread(SpeedUpBattle);
+
             x = CenterTextX("") - 20;
             y = CenterTextY(0);
             SetColors(false);
@@ -47,12 +51,14 @@ namespace Monsterkampf_Simulator
             CheckIfCheating();
 
             Console.CursorVisible = false;
+            thread.Start();
             BattleLoop();
             PrintWinner();
+            thread.Join();
 
             while (true)
             {
-                key = Console.ReadKey(true);
+                ConsoleKeyInfo key = Console.ReadKey(true);
                 if (key.Key == ConsoleKey.Escape)
                     return new Lobby();
                 else
@@ -60,11 +66,26 @@ namespace Monsterkampf_Simulator
             }
         }
 
+        private static void SpeedUpBattle()
+        {
+            while (true)
+            {
+                ConsoleKeyInfo key = Console.ReadKey(true);
+                if (key.Key == ConsoleKey.Spacebar)
+                {
+                    printSpeed = 5;
+                    break;
+                }
+ 
+            }
+        }
+
+
         private void StartSim()
         {
             SetValues();
             MonsterSettings.DisplayVS();
-            string[] starterText = { $"Both Monsters have the same AS, meaning {chosenMonsters[GetStarter()].name}, which was chosen randomly, will start attacking!",
+            string[] starterText = { $"Both Monsters have the same AS, meaning {chosenMonsters[GetStarter()].name}, whom was chosen randomly, will start attacking!",
                 $"{chosenMonsters[GetStarter()].name} has more AS, meaning it will start attacking!",
                 "3...", "2...", "1...", "Fight!"};
 
@@ -93,7 +114,7 @@ namespace Monsterkampf_Simulator
                 int[] attackLog = chosenMonsters[currentPlayer].Attack(chosenMonsters[otherPlayer]);
                 string[] battleLoopText = { $"Round {roundCount}:", 
                     $"{chosenMonsters[currentPlayer].name} has {((attackLog[2] == 0) ? "" : "criticaly " )}attacked {chosenMonsters[otherPlayer].name}.",
-                    $"{attackLog[0]} damage was done and {chosenMonsters[otherPlayer].name} has now {attackLog[1]} HP."};
+                    $"It did {attackLog[0]} damage and {chosenMonsters[otherPlayer].name} has now {attackLog[1]} HP."};
                 for (int i = 0; i < 3; i++)
                 {
                     PrintText(battleLoopText[i], (i == 0) ? colorPlayer[currentPlayer] : defaultFColor, x, y + i);
@@ -108,7 +129,7 @@ namespace Monsterkampf_Simulator
                 {
                     y++;
                     Console.WriteLine();
-                    Thread.Sleep(100);
+                    Thread.Sleep(printSpeed);
                 }
 
                 if (attackLog[1] == 0)
@@ -132,12 +153,13 @@ namespace Monsterkampf_Simulator
                 cheater = 2;
                 saint = 1;
             }
-            string cheaterText = $"{chosenMonsters[cheater].name} cheated when choosing a grater DP than it's opponent AP. {chosenMonsters[saint].name} has won!";
+            string cheaterText = $"{chosenMonsters[cheater].name} cheated by choosing a grater DP than it's opponent AP. {chosenMonsters[saint].name} has won!";
             if (cheater != 0)
             {
                 Console.Clear();
                 PrintText(cheaterText, titelColor, CenterTextX(cheaterText), CenterTextY(1));
-                Thread.Sleep(3000);
+                Console.ReadKey(true);
+
                 return new Lobby();
             }
             return null;
@@ -146,10 +168,10 @@ namespace Monsterkampf_Simulator
         private void PrintWinner()
         {
             string[] endGameText = { $"{chosenMonsters[currentPlayer].name} has won the battle and is walking home victorious!",
-            $"The round cout is over and still, no one hit the ground yet. It's a draw!",
-            $"Since the battle is over, there is nothing more here be seen.",
+            $"The round cout is over and still, no one has hit the ground yet. It's a draw!",
+            $"Since the battle is over, there is nothing more here to be seen.",
             $"You shall press \"ESC\" to return to the main menu."};
-            Thread.Sleep(500);
+            Thread.Sleep((printSpeed == 100) ? 500 : 5);
             if (!draw)
             {
                 PrintText(endGameText[0], winnerColor, CenterTextX(endGameText[0]), y);
@@ -161,13 +183,13 @@ namespace Monsterkampf_Simulator
             for (int i = 2; i < 4; i++)
             {
                 y++;
-                Thread.Sleep(500);
+                Thread.Sleep((printSpeed == 100) ? 500 : 5);
                 PrintText(endGameText[i], defaultFColor, CenterTextX(endGameText[i]), y);
             }
             for (int i = 0; i < windowSize[1] / 2; i++)
             {
                 Console.WriteLine();
-                Thread.Sleep(50);
+                Thread.Sleep((printSpeed == 100) ? 50 : 5);
             }
         }
 
