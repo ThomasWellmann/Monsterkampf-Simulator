@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-using System.Runtime.InteropServices;
-namespace Monsterkampf_Simulator
+﻿namespace Monsterkampf_Simulator
 {
     internal class Lobby : Screen
     {
