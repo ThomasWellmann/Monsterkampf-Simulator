@@ -78,9 +78,7 @@
         public void DrawMonster(int _x, int _y)
         {
             for (int i = 0; i < 4; i++)
-            {
                 Screen.PrintText(monsterDrawn[i], monsterColor, _x, _y + i);
-            }
         }
     }
 }

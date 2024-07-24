@@ -18,6 +18,3 @@
         }
     }
 }
-//to do: Simulation non static
-//GetMonsterStats in Monster packen
-//reset Monsters values nach kampf

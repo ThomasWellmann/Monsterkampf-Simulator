@@ -35,14 +35,9 @@
             }
         }
 
-        protected static int CenterTextX(string _text = "")
-        {
-            return windowSize[0] / 2 - _text.Length / 2;
-        }
-        protected static int CenterTextY(int _offSet = 0)
-        {
-            return windowSize[1] / 2 + _offSet;
-        }
+        protected static int CenterTextX(string _text = "") { return windowSize[0] / 2 - _text.Length / 2; }
+
+        protected static int CenterTextY(int _offSet = 0) { return windowSize[1] / 2 + _offSet; }
 
         protected static void DrawMiddleLine()
         {

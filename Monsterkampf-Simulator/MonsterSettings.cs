@@ -60,6 +60,7 @@
 
             SetValues();
             Screen next = MonsterSelection();
+
             if (next != null) { return next; }
 
             return AskForChanges();
@@ -68,14 +69,14 @@
         private Screen MonsterSelection()
         {
             PrintSelectionText();
-
             Screen next = SelectMonster();
+
             if (next != null ) { return next; }
+
             currentPlayer++;
-
             PrintSelectionText();
-
             next = SelectMonster();
+
             if (next != null) { return next; }
 
             VSText[0][0] = monsterPlayer[1].GetMonsterStats()[4];
@@ -89,12 +90,9 @@
             while (true)
             {
                 ConsoleKeyInfo key = Console.ReadKey(true);
-                if (key.Key == ConsoleKey.Enter)
-                    GetMValueInput();
-                else if (key.Key == ConsoleKey.Spacebar)
-                    break;
-                else if (key.Key == ConsoleKey.Escape)
-                    return new MonsterSettings();
+                if (key.Key == ConsoleKey.Enter) GetMValueInput();
+                else if (key.Key == ConsoleKey.Spacebar) break;
+                else if (key.Key == ConsoleKey.Escape) return new MonsterSettings();
             }
             return new Simulation(monsterPlayer);
         }
@@ -186,8 +184,7 @@
                         Orc = new Monster("Orc", ConsoleColor.DarkGreen, orc[0], orc[1], orc[2], orc[3], orc[4]);
                         monsterPlayer[2] = Orc;
                     }
-                    else
-                        continue;
+                    else continue;
 
                     break;
                 }
@@ -203,8 +200,7 @@
                         Troll = new Monster("Troll", ConsoleColor.DarkYellow, troll[0], troll[1], troll[2], troll[3], troll[4]);
                         monsterPlayer[2] = Troll;
                     }
-                    else
-                        continue;
+                    else continue;
                     
                     break;
                 }
@@ -220,14 +216,11 @@
                         Goblin = new Monster("Goblin", ConsoleColor.DarkMagenta, goblin[0], goblin[1], goblin[2], goblin[3], goblin[4]);
                         monsterPlayer[2] = Goblin;
                     }
-                    else
-                        continue;
+                    else continue;
+
                     break;
                 }
-                else if (key.Key == ConsoleKey.Escape)
-                {
-                    return new Lobby();
-                }
+                else if (key.Key == ConsoleKey.Escape) return new Lobby();
             }
             return null;
         }
@@ -245,10 +238,9 @@
             }
             else
             {
-                for (int i = 0; i < VSText[2].GetLength(0); i++)
-                {
+                for (int i = 0; i < VSText[2].GetLength(0); i++) 
                     PrintText(VSText[2][i], defaultBColor, _x + 2, _y + i);
-                }
+
                 _x++;
                 _y++;
                 _monster.DrawMonster(_x, _y);
@@ -308,19 +300,9 @@
 
                             if (int.TryParse(input, out int mValue))
                             {
-                                if (monsterPlayer[p] == Orc)
-                                {
-                                    orc[i] = mValue;
-                                }
-                                else if (monsterPlayer[p] == Troll)
-                                {
-                                    troll[i] = mValue;
-                                }
-                                else if (monsterPlayer[p] == Goblin)
-                                {
-                                    goblin[i] = mValue;
-                                }
-
+                                if (monsterPlayer[p] == Orc) orc[i] = mValue;
+                                else if (monsterPlayer[p] == Troll) troll[i] = mValue;
+                                else if (monsterPlayer[p] == Goblin) goblin[i] = mValue;
                             }
                             SetMValues();
                             break;

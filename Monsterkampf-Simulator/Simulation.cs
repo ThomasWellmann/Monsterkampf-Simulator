@@ -52,11 +52,9 @@
 
             while (true)
             {
-                ConsoleKeyInfo key = Console.ReadKey(true);
-                if (key.Key == ConsoleKey.Escape)
-                    return new Lobby();
-                else
-                    continue;
+                var key = Console.ReadKey(true);
+                if (key.Key == ConsoleKey.Escape) return new Lobby();
+                else continue;
             }
         }
 
@@ -64,16 +62,14 @@
         {
             while (true)
             {
-                ConsoleKeyInfo key = Console.ReadKey(true);
+                var key = Console.ReadKey(true);
                 if (key.Key == ConsoleKey.Spacebar)
                 {
                     printSpeed = 5;
                     break;
                 }
- 
             }
         }
-
 
         private void StartSim()
         {
@@ -114,10 +110,7 @@
                     PrintText(battleLoopText[i], (i == 0) ? colorPlayer[currentPlayer] : defaultFColor, x, y + i);
                 }
 
-                if (currentPlayer != GetStarter())
-                {
-                    roundCount++;
-                }
+                if (currentPlayer != GetStarter()) roundCount++;
 
                 for (int i = 0; i < 5; i++)
                 {
@@ -126,10 +119,7 @@
                     Thread.Sleep(printSpeed);
                 }
 
-                if (attackLog[1] == 0)
-                {
-                    break;
-                }
+                if (attackLog[1] == 0) break;
                     
                 ChangePlayers();
             }
@@ -166,14 +156,10 @@
             $"Since the battle is over, there is nothing more here to be seen.",
             $"You shall press \"ESC\" to return to the main menu."};
             Thread.Sleep((printSpeed == 100) ? 500 : 5);
-            if (!draw)
-            {
-                PrintText(endGameText[0], winnerColor, CenterTextX(endGameText[0]), y);
-            } 
-            else
-            {
-                PrintText(endGameText[1], defaultFColor, CenterTextX(endGameText[1]), y);
-            }
+
+            if (!draw) PrintText(endGameText[0], winnerColor, CenterTextX(endGameText[0]), y);
+            else PrintText(endGameText[1], defaultFColor, CenterTextX(endGameText[1]), y);
+
             for (int i = 2; i < 4; i++)
             {
                 y++;
